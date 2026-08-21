@@ -1,0 +1,37 @@
+{
+  "model": "SSL4Rec",
+  "dataset": "douban-book",
+  "seed": 2024,
+  "best_val_epoch": 100,
+  "val_metrics": {
+    "Hit Ratio": 0.06205,
+    "Precision": 0.01312,
+    "Recall": 0.10111,
+    "NDCG": 0.05746
+  },
+  "config": "{'tau': 0.07, 'alpha': 0.1, 'drop': 0.1}",
+  "metrics": {
+    "HitRatio@10": 0.03971,
+    "Precision@10": 0.04443,
+    "Recall@10": 0.06941,
+    "NDCG@10": 0.07259,
+    "TailRecall@10": 0.02176,
+    "HeadRecall@10": 0.04771,
+    "ItemCoverage@10": 0.77871,
+    "ARP@10": 0.06227,
+    "Novelty@10": 13.82129,
+    "Gini@10": 0.65659,
+    "TailShareRecs@10": 0.4646,
+    "HitRatio@20": 0.06063,
+    "Precision@20": 0.03392,
+    "Recall@20": 0.09768,
+    "NDCG@20": 0.07919,
+    "TailRecall@20": 0.03568,
+    "HeadRecall@20": 0.07175,
+    "ItemCoverage@20": 0.90083,
+    "ARP@20": 0.05575,
+    "Novelty@20": 13.97382,
+    "Gini@20": 0.59591,
+    "TailShareRecs@20": 0.4908
+  }
+}

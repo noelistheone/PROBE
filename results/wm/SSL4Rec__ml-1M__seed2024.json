@@ -1,0 +1,37 @@
+{
+  "model": "SSL4Rec",
+  "dataset": "ml-1M",
+  "seed": 2024,
+  "best_val_epoch": 21,
+  "val_metrics": {
+    "Hit Ratio": 0.08726,
+    "Precision": 0.03331,
+    "Recall": 0.14259,
+    "NDCG": 0.08344
+  },
+  "config": "{'tau': 0.07, 'alpha': 0.1, 'drop': 0.1}",
+  "metrics": {
+    "HitRatio@10": 0.05028,
+    "Precision@10": 0.09657,
+    "Recall@10": 0.08758,
+    "NDCG@10": 0.11797,
+    "TailRecall@10": 0.04813,
+    "HeadRecall@10": 0.0511,
+    "ItemCoverage@10": 0.89336,
+    "ARP@10": 0.14476,
+    "Novelty@10": 11.48559,
+    "Gini@10": 0.58088,
+    "TailShareRecs@10": 0.50981,
+    "HitRatio@20": 0.08905,
+    "Precision@20": 0.08552,
+    "Recall@20": 0.14856,
+    "NDCG@20": 0.1339,
+    "TailRecall@20": 0.08349,
+    "HeadRecall@20": 0.09118,
+    "ItemCoverage@20": 0.92929,
+    "ARP@20": 0.14187,
+    "Novelty@20": 11.55126,
+    "Gini@20": 0.5392,
+    "TailShareRecs@20": 0.52046
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "XSimGCL (backbone)": {
+    "encoder_params": 2228032,
+    "added_params": 0,
+    "pct_added": 0.0
+  },
+  "PT4Rec": {
+    "encoder_params": 2228032,
+    "added_params": 12672,
+    "pct_added": 0.5687530520207968
+  },
+  "Ours": {
+    "encoder_params": 2228032,
+    "added_params": 17024,
+    "pct_added": 0.7640823830178382
+  }
+}

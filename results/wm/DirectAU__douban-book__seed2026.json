@@ -1,0 +1,37 @@
+{
+  "model": "DirectAU",
+  "dataset": "douban-book",
+  "seed": 2026,
+  "best_val_epoch": 36,
+  "val_metrics": {
+    "Hit Ratio": 0.08858,
+    "Precision": 0.01873,
+    "Recall": 0.12757,
+    "NDCG": 0.07601
+  },
+  "config": "{'gamma': 2, 'n_layers': 3}",
+  "metrics": {
+    "HitRatio@10": 0.05734,
+    "Precision@10": 0.06415,
+    "Recall@10": 0.08884,
+    "NDCG@10": 0.09927,
+    "TailRecall@10": 0.03536,
+    "HeadRecall@10": 0.06713,
+    "ItemCoverage@10": 0.41506,
+    "ARP@10": 0.09136,
+    "Novelty@10": 13.60884,
+    "Gini@10": 0.89568,
+    "TailShareRecs@10": 0.41327,
+    "HitRatio@20": 0.08678,
+    "Precision@20": 0.04854,
+    "Recall@20": 0.12358,
+    "NDCG@20": 0.10622,
+    "TailRecall@20": 0.06027,
+    "HeadRecall@20": 0.09859,
+    "ItemCoverage@20": 0.63238,
+    "ARP@20": 0.07514,
+    "Novelty@20": 13.83884,
+    "Gini@20": 0.83907,
+    "TailShareRecs@20": 0.44581
+  }
+}

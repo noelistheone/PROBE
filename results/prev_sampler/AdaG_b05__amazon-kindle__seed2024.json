@@ -1,0 +1,37 @@
+{
+  "model": "XSimGCLg",
+  "dataset": "amazon-kindle",
+  "seed": 2024,
+  "best_val_epoch": 99,
+  "val_metrics": {
+    "Hit Ratio": 0.15504,
+    "Precision": 0.01156,
+    "Recall": 0.17828,
+    "NDCG": 0.08408
+  },
+  "config": "{'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 1.0, 'geom_beta': 0.5}",
+  "metrics": {
+    "HitRatio@10": 0.09788,
+    "Precision@10": 0.03461,
+    "Recall@10": 0.12444,
+    "NDCG@10": 0.08787,
+    "TailRecall@10": 0.02074,
+    "HeadRecall@10": 0.15152,
+    "ItemCoverage@10": 0.17476,
+    "ARP@10": 0.13837,
+    "Novelty@10": 13.51619,
+    "Gini@10": 0.97478,
+    "TailShareRecs@10": 0.03011,
+    "HitRatio@20": 0.14397,
+    "Precision@20": 0.02545,
+    "Recall@20": 0.17522,
+    "NDCG@20": 0.10324,
+    "TailRecall@20": 0.03976,
+    "HeadRecall@20": 0.21644,
+    "ItemCoverage@20": 0.25042,
+    "ARP@20": 0.11534,
+    "Novelty@20": 13.7629,
+    "Gini@20": 0.96272,
+    "TailShareRecs@20": 0.04145
+  }
+}

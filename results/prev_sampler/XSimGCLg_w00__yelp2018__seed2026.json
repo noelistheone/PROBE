@@ -1,0 +1,37 @@
+{
+  "model": "XSimGCLg",
+  "dataset": "yelp2018",
+  "seed": 2026,
+  "best_val_epoch": 13,
+  "val_metrics": {
+    "Hit Ratio": 0.11077,
+    "Precision": 0.02193,
+    "Recall": 0.11872,
+    "NDCG": 0.07219
+  },
+  "config": "{'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 0.0}",
+  "metrics": {
+    "HitRatio@10": 0.0361,
+    "Precision@10": 0.03693,
+    "Recall@10": 0.04132,
+    "NDCG@10": 0.0472,
+    "TailRecall@10": 0.00531,
+    "HeadRecall@10": 0.06518,
+    "ItemCoverage@10": 0.20127,
+    "ARP@10": 0.20636,
+    "Novelty@10": 12.72275,
+    "Gini@10": 0.95093,
+    "TailShareRecs@10": 0.04963,
+    "HitRatio@20": 0.06158,
+    "Precision@20": 0.0315,
+    "Recall@20": 0.06983,
+    "NDCG@20": 0.0575,
+    "TailRecall@20": 0.01287,
+    "HeadRecall@20": 0.10759,
+    "ItemCoverage@20": 0.29022,
+    "ARP@20": 0.18167,
+    "Novelty@20": 12.93633,
+    "Gini@20": 0.92868,
+    "TailShareRecs@20": 0.07305
+  }
+}

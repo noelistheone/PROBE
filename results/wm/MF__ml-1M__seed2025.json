@@ -1,0 +1,37 @@
+{
+  "model": "MF",
+  "dataset": "ml-1M",
+  "seed": 2025,
+  "best_val_epoch": 51,
+  "val_metrics": {
+    "Hit Ratio": 0.17519,
+    "Precision": 0.06688,
+    "Recall": 0.23269,
+    "NDCG": 0.15574
+  },
+  "config": "",
+  "metrics": {
+    "HitRatio@10": 0.08954,
+    "Precision@10": 0.17198,
+    "Recall@10": 0.13607,
+    "NDCG@10": 0.20244,
+    "TailRecall@10": 0.02992,
+    "HeadRecall@10": 0.11239,
+    "ItemCoverage@10": 0.62719,
+    "ARP@10": 0.28905,
+    "Novelty@10": 10.02897,
+    "Gini@10": 0.79108,
+    "TailShareRecs@10": 0.20837,
+    "HitRatio@20": 0.15622,
+    "Precision@20": 0.15003,
+    "Recall@20": 0.22257,
+    "NDCG@20": 0.22099,
+    "TailRecall@20": 0.04998,
+    "HeadRecall@20": 0.19693,
+    "ItemCoverage@20": 0.68612,
+    "ARP@20": 0.29675,
+    "Novelty@20": 9.97027,
+    "Gini@20": 0.79422,
+    "TailShareRecs@20": 0.19328
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "model": "SGL",
+  "dataset": "douban-book",
+  "seed": 2024,
+  "best_val_epoch": 31,
+  "val_metrics": {
+    "Hit Ratio": 0.12139,
+    "Precision": 0.02567,
+    "Recall": 0.16652,
+    "NDCG": 0.0981
+  },
+  "config": "{'n_layer': 2, 'lambda': 0.1, 'drop_rate': 0.1, 'aug_type': 1, 'temp': 0.2}",
+  "metrics": {
+    "HitRatio@10": 0.07946,
+    "Precision@10": 0.08889,
+    "Recall@10": 0.11315,
+    "NDCG@10": 0.13276,
+    "TailRecall@10": 0.00645,
+    "HeadRecall@10": 0.112,
+    "ItemCoverage@10": 0.14922,
+    "ARP@10": 0.30883,
+    "Novelty@10": 10.36474,
+    "Gini@10": 0.97924,
+    "TailShareRecs@10": 0.01526,
+    "HitRatio@20": 0.12226,
+    "Precision@20": 0.06839,
+    "Recall@20": 0.1626,
+    "NDCG@20": 0.14129,
+    "TailRecall@20": 0.01259,
+    "HeadRecall@20": 0.17113,
+    "ItemCoverage@20": 0.22864,
+    "ARP@20": 0.26426,
+    "Novelty@20": 10.64171,
+    "Gini@20": 0.97006,
+    "TailShareRecs@20": 0.02066
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "model": "DirectAU",
+  "dataset": "ml-1M",
+  "seed": 2025,
+  "best_val_epoch": 6,
+  "val_metrics": {
+    "Hit Ratio": 0.06151,
+    "Precision": 0.02348,
+    "Recall": 0.10062,
+    "NDCG": 0.0612
+  },
+  "config": "{'gamma': 2, 'n_layers': 3}",
+  "metrics": {
+    "HitRatio@10": 0.03686,
+    "Precision@10": 0.07081,
+    "Recall@10": 0.06298,
+    "NDCG@10": 0.0901,
+    "TailRecall@10": 0.04495,
+    "HeadRecall@10": 0.03377,
+    "ItemCoverage@10": 0.9589,
+    "ARP@10": 0.08771,
+    "Novelty@10": 12.69728,
+    "Gini@10": 0.55183,
+    "TailShareRecs@10": 0.66649,
+    "HitRatio@20": 0.06226,
+    "Precision@20": 0.05979,
+    "Recall@20": 0.10304,
+    "NDCG@20": 0.09779,
+    "TailRecall@20": 0.07918,
+    "HeadRecall@20": 0.05578,
+    "ItemCoverage@20": 0.99023,
+    "ARP@20": 0.08106,
+    "Novelty@20": 12.83434,
+    "Gini@20": 0.48289,
+    "TailShareRecs@20": 0.69618
+  }
+}

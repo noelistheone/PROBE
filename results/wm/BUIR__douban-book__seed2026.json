@@ -1,0 +1,37 @@
+{
+  "model": "BUIR",
+  "dataset": "douban-book",
+  "seed": 2026,
+  "best_val_epoch": 100,
+  "val_metrics": {
+    "Hit Ratio": 0.07745,
+    "Precision": 0.01638,
+    "Recall": 0.10881,
+    "NDCG": 0.05975
+  },
+  "config": "{'n_layer': 2, 'tau': 0.995, 'drop_rate': 0.2}",
+  "metrics": {
+    "HitRatio@10": 0.04698,
+    "Precision@10": 0.05256,
+    "Recall@10": 0.06577,
+    "NDCG@10": 0.07523,
+    "TailRecall@10": 0.00071,
+    "HeadRecall@10": 0.06761,
+    "ItemCoverage@10": 0.04316,
+    "ARP@10": 0.59668,
+    "Novelty@10": 9.05454,
+    "Gini@10": 0.99787,
+    "TailShareRecs@10": 0.00547,
+    "HitRatio@20": 0.07708,
+    "Precision@20": 0.04311,
+    "Recall@20": 0.1066,
+    "NDCG@20": 0.08416,
+    "TailRecall@20": 0.0012,
+    "HeadRecall@20": 0.1109,
+    "ItemCoverage@20": 0.07698,
+    "ARP@20": 0.48457,
+    "Novelty@20": 9.3843,
+    "Gini@20": 0.99617,
+    "TailShareRecs@20": 0.00602
+  }
+}

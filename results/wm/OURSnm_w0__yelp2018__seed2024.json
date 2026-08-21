@@ -1,0 +1,37 @@
+{
+  "model": "PT4Rec_Enhanced",
+  "dataset": "yelp2018",
+  "seed": 2024,
+  "best_val_epoch": 96,
+  "val_metrics": {
+    "Hit Ratio": 0.10204,
+    "Precision": 0.0202,
+    "Recall": 0.10961,
+    "NDCG": 0.06545
+  },
+  "config": "-n_layer 2 -temp 0.2 -prompt_size 64 -user_prompt_num 3 -pretrain_model XSimGCL -simgcl_eps 0.1 -simgcl_n_layers 3 -xsimgcl_eps 0.2 -xsimgcl_layer_cl 1 -dual_attention true -use_popularity true -pop_gamma 0.1 -pop_adaptive true -fusion_type multiply -warmup_epochs 10 -stage2_cl_weight 0.0 -prompt_dropout 0.1 -align_weight 0.02 -uniform_weight 0.01 -n_negs 1 -neg_mixup false -freeze_encoder false -geom_w 0.0",
+  "metrics": {
+    "HitRatio@10": 0.03281,
+    "Precision@10": 0.03357,
+    "Recall@10": 0.03748,
+    "NDCG@10": 0.04293,
+    "TailRecall@10": 0.00175,
+    "HeadRecall@10": 0.06215,
+    "ItemCoverage@10": 0.12923,
+    "ARP@10": 0.24284,
+    "Novelty@10": 12.37778,
+    "Gini@10": 0.97275,
+    "TailShareRecs@10": 0.01367,
+    "HitRatio@20": 0.05668,
+    "Precision@20": 0.02899,
+    "Recall@20": 0.0639,
+    "NDCG@20": 0.05259,
+    "TailRecall@20": 0.00479,
+    "HeadRecall@20": 0.1057,
+    "ItemCoverage@20": 0.19139,
+    "ARP@20": 0.21431,
+    "Novelty@20": 12.5812,
+    "Gini@20": 0.95884,
+    "TailShareRecs@20": 0.0238
+  }
+}

@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+dataset/
+pretrained_model/
+log/
+figures/
+results/*.txt
+results/**/*.txt

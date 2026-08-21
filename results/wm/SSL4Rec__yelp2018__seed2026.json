@@ -1,0 +1,37 @@
+{
+  "model": "SSL4Rec",
+  "dataset": "yelp2018",
+  "seed": 2026,
+  "best_val_epoch": 16,
+  "val_metrics": {
+    "Hit Ratio": 0.05236,
+    "Precision": 0.01036,
+    "Recall": 0.05739,
+    "NDCG": 0.03137
+  },
+  "config": "{'tau': 0.07, 'alpha': 0.1, 'drop': 0.1}",
+  "metrics": {
+    "HitRatio@10": 0.01624,
+    "Precision@10": 0.01662,
+    "Recall@10": 0.01886,
+    "NDCG@10": 0.02033,
+    "TailRecall@10": 0.01133,
+    "HeadRecall@10": 0.02088,
+    "ItemCoverage@10": 0.74817,
+    "ARP@10": 0.06103,
+    "Novelty@10": 14.75583,
+    "Gini@10": 0.722,
+    "TailShareRecs@10": 0.48475,
+    "HitRatio@20": 0.02976,
+    "Precision@20": 0.01522,
+    "Recall@20": 0.034,
+    "NDCG@20": 0.02635,
+    "TailRecall@20": 0.02175,
+    "HeadRecall@20": 0.03732,
+    "ItemCoverage@20": 0.87458,
+    "ARP@20": 0.05946,
+    "Novelty@20": 14.80692,
+    "Gini@20": 0.67131,
+    "TailShareRecs@20": 0.50064
+  }
+}

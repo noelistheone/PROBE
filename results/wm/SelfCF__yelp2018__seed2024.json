@@ -1,0 +1,37 @@
+{
+  "model": "SelfCF",
+  "dataset": "yelp2018",
+  "seed": 2024,
+  "best_val_epoch": 100,
+  "val_metrics": {
+    "Hit Ratio": 0.06155,
+    "Precision": 0.01218,
+    "Recall": 0.06601,
+    "NDCG": 0.03877
+  },
+  "config": "{'n_layer': 2, 'tau': 0.05}",
+  "metrics": {
+    "HitRatio@10": 0.02393,
+    "Precision@10": 0.02449,
+    "Recall@10": 0.02614,
+    "NDCG@10": 0.03028,
+    "TailRecall@10": 0.00027,
+    "HeadRecall@10": 0.04628,
+    "ItemCoverage@10": 0.01738,
+    "ARP@10": 0.33155,
+    "Novelty@10": 11.81693,
+    "Gini@10": 0.99567,
+    "TailShareRecs@10": 0.00524,
+    "HitRatio@20": 0.04147,
+    "Precision@20": 0.02121,
+    "Recall@20": 0.04528,
+    "NDCG@20": 0.03712,
+    "TailRecall@20": 0.00084,
+    "HeadRecall@20": 0.07985,
+    "ItemCoverage@20": 0.02971,
+    "ARP@20": 0.29268,
+    "Novelty@20": 12.02618,
+    "Gini@20": 0.99234,
+    "TailShareRecs@20": 0.00679
+  }
+}

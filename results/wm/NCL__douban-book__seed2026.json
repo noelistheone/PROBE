@@ -1,0 +1,37 @@
+{
+  "model": "NCL",
+  "dataset": "douban-book",
+  "seed": 2026,
+  "best_val_epoch": 91,
+  "val_metrics": {
+    "Hit Ratio": 0.11491,
+    "Precision": 0.0243,
+    "Recall": 0.1576,
+    "NDCG": 0.09253
+  },
+  "config": "{'n_layer': 3, 'ssl_reg': '1e-6', 'proto_reg': '1e-7', 'tau': 0.05, 'hyper_layers': 1, 'alpha': 1, 'num_clusters': 2000}",
+  "metrics": {
+    "HitRatio@10": 0.07399,
+    "Precision@10": 0.08278,
+    "Recall@10": 0.1076,
+    "NDCG@10": 0.12373,
+    "TailRecall@10": 0.00582,
+    "HeadRecall@10": 0.10438,
+    "ItemCoverage@10": 0.21145,
+    "ARP@10": 0.31551,
+    "Novelty@10": 10.47496,
+    "Gini@10": 0.97236,
+    "TailShareRecs@10": 0.03607,
+    "HitRatio@20": 0.11489,
+    "Precision@20": 0.06427,
+    "Recall@20": 0.15474,
+    "NDCG@20": 0.13221,
+    "TailRecall@20": 0.01001,
+    "HeadRecall@20": 0.16164,
+    "ItemCoverage@20": 0.33245,
+    "ARP@20": 0.26606,
+    "Novelty@20": 10.77167,
+    "Gini@20": 0.95917,
+    "TailShareRecs@20": 0.04264
+  }
+}

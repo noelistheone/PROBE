@@ -1,0 +1,37 @@
+{
+  "model": "MF",
+  "dataset": "yelp2018",
+  "seed": 2026,
+  "best_val_epoch": 86,
+  "val_metrics": {
+    "Hit Ratio": 0.06959,
+    "Precision": 0.01378,
+    "Recall": 0.07485,
+    "NDCG": 0.04277
+  },
+  "config": "",
+  "metrics": {
+    "HitRatio@10": 0.0217,
+    "Precision@10": 0.0222,
+    "Recall@10": 0.02497,
+    "NDCG@10": 0.02786,
+    "TailRecall@10": 0.00628,
+    "HeadRecall@10": 0.03627,
+    "ItemCoverage@10": 0.52481,
+    "ARP@10": 0.14331,
+    "Novelty@10": 13.47649,
+    "Gini@10": 0.8594,
+    "TailShareRecs@10": 0.17954,
+    "HitRatio@20": 0.0387,
+    "Precision@20": 0.0198,
+    "Recall@20": 0.04448,
+    "NDCG@20": 0.03536,
+    "TailRecall@20": 0.01253,
+    "HeadRecall@20": 0.06343,
+    "ItemCoverage@20": 0.65433,
+    "ARP@20": 0.13497,
+    "Novelty@20": 13.55527,
+    "Gini@20": 0.83442,
+    "TailShareRecs@20": 0.19454
+  }
+}

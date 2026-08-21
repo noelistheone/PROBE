@@ -1,0 +1,37 @@
+{
+  "model": "LightGCN",
+  "dataset": "douban-book",
+  "seed": 2026,
+  "best_val_epoch": 166,
+  "val_metrics": {
+    "Hit Ratio": 0.10226,
+    "Precision": 0.02163,
+    "Recall": 0.13954,
+    "NDCG": 0.07855
+  },
+  "config": "{'n_layer': 2}",
+  "metrics": {
+    "HitRatio@10": 0.06443,
+    "Precision@10": 0.07208,
+    "Recall@10": 0.09076,
+    "NDCG@10": 0.10432,
+    "TailRecall@10": 0.00952,
+    "HeadRecall@10": 0.08891,
+    "ItemCoverage@10": 0.27928,
+    "ARP@10": 0.31893,
+    "Novelty@10": 10.57768,
+    "Gini@10": 0.96102,
+    "TailShareRecs@10": 0.04246,
+    "HitRatio@20": 0.10149,
+    "Precision@20": 0.05677,
+    "Recall@20": 0.1342,
+    "NDCG@20": 0.11263,
+    "TailRecall@20": 0.01545,
+    "HeadRecall@20": 0.13983,
+    "ItemCoverage@20": 0.40952,
+    "ARP@20": 0.28068,
+    "Novelty@20": 10.75781,
+    "Gini@20": 0.9493,
+    "TailShareRecs@20": 0.04704
+  }
+}

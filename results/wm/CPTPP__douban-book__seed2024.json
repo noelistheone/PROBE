@@ -1,0 +1,37 @@
+{
+  "model": "CPTPP",
+  "dataset": "douban-book",
+  "seed": 2024,
+  "best_val_epoch": 100,
+  "val_metrics": {
+    "Hit Ratio": 0.06889,
+    "Precision": 0.01457,
+    "Recall": 0.09334,
+    "NDCG": 0.05055
+  },
+  "config": "-n_layer 2 -lambda 0.1 -droprate 0.1 -augtype 1 -temp 0.2 -inputs_type 2 -prompt_size 256",
+  "metrics": {
+    "HitRatio@10": 0.04209,
+    "Precision@10": 0.04708,
+    "Recall@10": 0.05644,
+    "NDCG@10": 0.06656,
+    "TailRecall@10": 0.00022,
+    "HeadRecall@10": 0.06075,
+    "ItemCoverage@10": 0.03639,
+    "ARP@10": 0.55594,
+    "Novelty@10": 9.24556,
+    "Gini@10": 0.99707,
+    "TailShareRecs@10": 0.00423,
+    "HitRatio@20": 0.06884,
+    "Precision@20": 0.03851,
+    "Recall@20": 0.09169,
+    "NDCG@20": 0.07405,
+    "TailRecall@20": 0.00063,
+    "HeadRecall@20": 0.09925,
+    "ItemCoverage@20": 0.05908,
+    "ARP@20": 0.45513,
+    "Novelty@20": 9.55045,
+    "Gini@20": 0.99512,
+    "TailShareRecs@20": 0.00542
+  }
+}

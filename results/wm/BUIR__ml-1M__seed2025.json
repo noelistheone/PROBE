@@ -1,0 +1,37 @@
+{
+  "model": "BUIR",
+  "dataset": "ml-1M",
+  "seed": 2025,
+  "best_val_epoch": 100,
+  "val_metrics": {
+    "Hit Ratio": 0.15039,
+    "Precision": 0.05741,
+    "Recall": 0.19403,
+    "NDCG": 0.1343
+  },
+  "config": "{'n_layer': 2, 'tau': 0.995, 'drop_rate': 0.2}",
+  "metrics": {
+    "HitRatio@10": 0.09964,
+    "Precision@10": 0.19138,
+    "Recall@10": 0.12933,
+    "NDCG@10": 0.23567,
+    "TailRecall@10": 0.00044,
+    "HeadRecall@10": 0.13766,
+    "ItemCoverage@10": 0.08824,
+    "ARP@10": 0.65726,
+    "Novelty@10": 8.3287,
+    "Gini@10": 0.98754,
+    "TailShareRecs@10": 0.00174,
+    "HitRatio@20": 0.1597,
+    "Precision@20": 0.15336,
+    "Recall@20": 0.20149,
+    "NDCG@20": 0.23388,
+    "TailRecall@20": 0.00101,
+    "HeadRecall@20": 0.22051,
+    "ItemCoverage@20": 0.14659,
+    "ARP@20": 0.58863,
+    "Novelty@20": 8.50903,
+    "Gini@20": 0.98005,
+    "TailShareRecs@20": 0.00244
+  }
+}

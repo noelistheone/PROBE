@@ -1,0 +1,37 @@
+{
+  "model": "LightGCN",
+  "dataset": "ml-1M",
+  "seed": 2025,
+  "best_val_epoch": 171,
+  "val_metrics": {
+    "Hit Ratio": 0.18155,
+    "Precision": 0.06931,
+    "Recall": 0.24641,
+    "NDCG": 0.16408
+  },
+  "config": "{'n_layer': 2}",
+  "metrics": {
+    "HitRatio@10": 0.1194,
+    "Precision@10": 0.22933,
+    "Recall@10": 0.17007,
+    "NDCG@10": 0.27862,
+    "TailRecall@10": 0.02233,
+    "HeadRecall@10": 0.15659,
+    "ItemCoverage@10": 0.47744,
+    "ARP@10": 0.373,
+    "Novelty@10": 9.49121,
+    "Gini@10": 0.88151,
+    "TailShareRecs@10": 0.09019,
+    "HitRatio@20": 0.19408,
+    "Precision@20": 0.18638,
+    "Recall@20": 0.2599,
+    "NDCG@20": 0.28365,
+    "TailRecall@20": 0.04237,
+    "HeadRecall@20": 0.25222,
+    "ItemCoverage@20": 0.5697,
+    "ARP@20": 0.35038,
+    "Novelty@20": 9.59238,
+    "Gini@20": 0.86416,
+    "TailShareRecs@20": 0.10413
+  }
+}

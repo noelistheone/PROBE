@@ -1,0 +1,37 @@
+{
+  "model": "CPTPP",
+  "dataset": "ml-1M",
+  "seed": 2024,
+  "best_val_epoch": 100,
+  "val_metrics": {
+    "Hit Ratio": 0.15126,
+    "Precision": 0.05774,
+    "Recall": 0.19112,
+    "NDCG": 0.13312
+  },
+  "config": "-n_layer 2 -lambda 0.1 -droprate 0.1 -augtype 1 -temp 0.2 -inputs_type 2 -prompt_size 256",
+  "metrics": {
+    "HitRatio@10": 0.10137,
+    "Precision@10": 0.19471,
+    "Recall@10": 0.13069,
+    "NDCG@10": 0.23462,
+    "TailRecall@10": 0.00422,
+    "HeadRecall@10": 0.13861,
+    "ItemCoverage@10": 0.20696,
+    "ARP@10": 0.54014,
+    "Novelty@10": 8.74983,
+    "Gini@10": 0.96606,
+    "TailShareRecs@10": 0.02126,
+    "HitRatio@20": 0.16258,
+    "Precision@20": 0.15613,
+    "Recall@20": 0.20044,
+    "NDCG@20": 0.23294,
+    "TailRecall@20": 0.00969,
+    "HeadRecall@20": 0.22117,
+    "ItemCoverage@20": 0.27537,
+    "ARP@20": 0.49286,
+    "Novelty@20": 8.89995,
+    "Gini@20": 0.95345,
+    "TailShareRecs@20": 0.02594
+  }
+}

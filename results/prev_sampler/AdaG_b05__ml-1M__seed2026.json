@@ -1,0 +1,37 @@
+{
+  "model": "XSimGCLg",
+  "dataset": "ml-1M",
+  "seed": 2026,
+  "best_val_epoch": 99,
+  "val_metrics": {
+    "Hit Ratio": 0.18398,
+    "Precision": 0.07023,
+    "Recall": 0.259,
+    "NDCG": 0.1741
+  },
+  "config": "{'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 1.0, 'geom_beta': 0.5}",
+  "metrics": {
+    "HitRatio@10": 0.12428,
+    "Precision@10": 0.2387,
+    "Recall@10": 0.18453,
+    "NDCG@10": 0.29689,
+    "TailRecall@10": 0.01941,
+    "HeadRecall@10": 0.16447,
+    "ItemCoverage@10": 0.35872,
+    "ARP@10": 0.33399,
+    "Novelty@10": 9.58189,
+    "Gini@10": 0.89259,
+    "TailShareRecs@10": 0.07673,
+    "HitRatio@20": 0.19712,
+    "Precision@20": 0.1893,
+    "Recall@20": 0.27669,
+    "NDCG@20": 0.29964,
+    "TailRecall@20": 0.04772,
+    "HeadRecall@20": 0.25437,
+    "ItemCoverage@20": 0.46335,
+    "ARP@20": 0.29688,
+    "Novelty@20": 9.79978,
+    "Gini@20": 0.86057,
+    "TailShareRecs@20": 0.11413
+  }
+}

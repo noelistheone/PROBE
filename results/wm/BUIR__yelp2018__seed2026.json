@@ -1,0 +1,37 @@
+{
+  "model": "BUIR",
+  "dataset": "yelp2018",
+  "seed": 2026,
+  "best_val_epoch": 100,
+  "val_metrics": {
+    "Hit Ratio": 0.06367,
+    "Precision": 0.0126,
+    "Recall": 0.06855,
+    "NDCG": 0.04014
+  },
+  "config": "{'n_layer': 2, 'tau': 0.995, 'drop_rate': 0.2}",
+  "metrics": {
+    "HitRatio@10": 0.02436,
+    "Precision@10": 0.02492,
+    "Recall@10": 0.02671,
+    "NDCG@10": 0.03079,
+    "TailRecall@10": 0.00032,
+    "HeadRecall@10": 0.04706,
+    "ItemCoverage@10": 0.01948,
+    "ARP@10": 0.33823,
+    "Novelty@10": 11.81944,
+    "Gini@10": 0.99529,
+    "TailShareRecs@10": 0.00465,
+    "HitRatio@20": 0.04209,
+    "Precision@20": 0.02153,
+    "Recall@20": 0.04613,
+    "NDCG@20": 0.03773,
+    "TailRecall@20": 0.00081,
+    "HeadRecall@20": 0.08108,
+    "ItemCoverage@20": 0.03331,
+    "ARP@20": 0.29775,
+    "Novelty@20": 12.02444,
+    "Gini@20": 0.99167,
+    "TailShareRecs@20": 0.0066
+  }
+}

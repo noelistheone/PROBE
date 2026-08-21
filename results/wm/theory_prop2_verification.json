@@ -1,0 +1,22 @@
+[
+  {
+    "degree": 4,
+    "theory_mu_star": 16.0,
+    "empirical_mu_star": 20.991037201085547
+  },
+  {
+    "degree": 16,
+    "theory_mu_star": 4.0,
+    "empirical_mu_star": 4.406236427773573
+  },
+  {
+    "degree": 64,
+    "theory_mu_star": 1.0,
+    "empirical_mu_star": 1.1242100350620863
+  },
+  {
+    "degree": 256,
+    "theory_mu_star": 0.25,
+    "empirical_mu_star": 0.2868316813342009
+  }
+]

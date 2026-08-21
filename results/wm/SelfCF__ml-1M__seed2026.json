@@ -1,0 +1,37 @@
+{
+  "model": "SelfCF",
+  "dataset": "ml-1M",
+  "seed": 2026,
+  "best_val_epoch": 100,
+  "val_metrics": {
+    "Hit Ratio": 0.13774,
+    "Precision": 0.05258,
+    "Recall": 0.17667,
+    "NDCG": 0.12363
+  },
+  "config": "{'n_layer': 2, 'tau': 0.05}",
+  "metrics": {
+    "HitRatio@10": 0.09031,
+    "Precision@10": 0.17345,
+    "Recall@10": 0.11743,
+    "NDCG@10": 0.21405,
+    "TailRecall@10": 3e-05,
+    "HeadRecall@10": 0.1249,
+    "ItemCoverage@10": 0.04024,
+    "ARP@10": 0.70783,
+    "Novelty@10": 8.19104,
+    "Gini@10": 0.99187,
+    "TailShareRecs@10": 0.00017,
+    "HitRatio@20": 0.14617,
+    "Precision@20": 0.14037,
+    "Recall@20": 0.18376,
+    "NDCG@20": 0.21355,
+    "TailRecall@20": 0.00022,
+    "HeadRecall@20": 0.2021,
+    "ItemCoverage@20": 0.07387,
+    "ARP@20": 0.63574,
+    "Novelty@20": 8.36324,
+    "Gini@20": 0.98652,
+    "TailShareRecs@20": 0.00033
+  }
+}

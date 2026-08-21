@@ -1,0 +1,37 @@
+{
+  "model": "PT4Rec_Enhanced",
+  "dataset": "douban-book",
+  "seed": 2024,
+  "best_val_epoch": 96,
+  "val_metrics": {
+    "Hit Ratio": 0.12015,
+    "Precision": 0.02541,
+    "Recall": 0.16406,
+    "NDCG": 0.09679
+  },
+  "config": "-n_layer 2 -temp 0.2 -prompt_size 64 -user_prompt_num 3 -pretrain_model XSimGCL -simgcl_eps 0.1 -simgcl_n_layers 3 -xsimgcl_eps 0.2 -xsimgcl_layer_cl 1 -dual_attention true -use_popularity true -pop_gamma 0.1 -pop_adaptive true -fusion_type multiply -warmup_epochs 10 -stage2_cl_weight 0.0 -prompt_dropout 0.1 -align_weight 0.02 -uniform_weight 0.01 -n_negs 4 -neg_mixup true -freeze_encoder false",
+  "metrics": {
+    "HitRatio@10": 0.07797,
+    "Precision@10": 0.08722,
+    "Recall@10": 0.10934,
+    "NDCG@10": 0.12955,
+    "TailRecall@10": 0.00348,
+    "HeadRecall@10": 0.11116,
+    "ItemCoverage@10": 0.0897,
+    "ARP@10": 0.37704,
+    "Novelty@10": 9.94037,
+    "Gini@10": 0.98854,
+    "TailShareRecs@10": 0.00499,
+    "HitRatio@20": 0.12186,
+    "Precision@20": 0.06817,
+    "Recall@20": 0.1612,
+    "NDCG@20": 0.1388,
+    "TailRecall@20": 0.00707,
+    "HeadRecall@20": 0.17302,
+    "ItemCoverage@20": 0.14002,
+    "ARP@20": 0.3242,
+    "Novelty@20": 10.19486,
+    "Gini@20": 0.98345,
+    "TailShareRecs@20": 0.00705
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "n": 18,
+  "distinct_configs": 1,
+  "min": 0.151,
+  "max": 0.15165,
+  "spread": 0.0006500000000000117,
+  "sd": 0.00020531897708916767,
+  "note": "identical config, identical seed; run-to-run GPU nondeterminism only"
+}

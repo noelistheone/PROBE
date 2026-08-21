@@ -1,0 +1,37 @@
+{
+  "model": "DirectAU",
+  "dataset": "yelp2018",
+  "seed": 2024,
+  "best_val_epoch": 96,
+  "val_metrics": {
+    "Hit Ratio": 0.10069,
+    "Precision": 0.01993,
+    "Recall": 0.10948,
+    "NDCG": 0.06678
+  },
+  "config": "{'gamma': 2, 'n_layers': 3}",
+  "metrics": {
+    "HitRatio@10": 0.03563,
+    "Precision@10": 0.03645,
+    "Recall@10": 0.04064,
+    "NDCG@10": 0.04718,
+    "TailRecall@10": 0.00958,
+    "HeadRecall@10": 0.06023,
+    "ItemCoverage@10": 0.31523,
+    "ARP@10": 0.13917,
+    "Novelty@10": 13.40997,
+    "Gini@10": 0.92457,
+    "TailShareRecs@10": 0.13798,
+    "HitRatio@20": 0.06053,
+    "Precision@20": 0.03096,
+    "Recall@20": 0.06869,
+    "NDCG@20": 0.05719,
+    "TailRecall@20": 0.02157,
+    "HeadRecall@20": 0.09732,
+    "ItemCoverage@20": 0.45608,
+    "ARP@20": 0.12079,
+    "Novelty@20": 13.65729,
+    "Gini@20": 0.88813,
+    "TailShareRecs@20": 0.1913
+  }
+}

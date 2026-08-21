@@ -1,0 +1,37 @@
+{
+  "model": "NCL",
+  "dataset": "ml-1M",
+  "seed": 2025,
+  "best_val_epoch": 91,
+  "val_metrics": {
+    "Hit Ratio": 0.19209,
+    "Precision": 0.07333,
+    "Recall": 0.25879,
+    "NDCG": 0.17474
+  },
+  "config": "{'n_layer': 3, 'ssl_reg': '1e-6', 'proto_reg': '1e-7', 'tau': 0.05, 'hyper_layers': 1, 'alpha': 1, 'num_clusters': 2000}",
+  "metrics": {
+    "HitRatio@10": 0.12899,
+    "Precision@10": 0.24776,
+    "Recall@10": 0.18139,
+    "NDCG@10": 0.30399,
+    "TailRecall@10": 0.01309,
+    "HeadRecall@10": 0.17341,
+    "ItemCoverage@10": 0.37453,
+    "ARP@10": 0.40135,
+    "Novelty@10": 9.30983,
+    "Gini@10": 0.90784,
+    "TailShareRecs@10": 0.05226,
+    "HitRatio@20": 0.20579,
+    "Precision@20": 0.19763,
+    "Recall@20": 0.27503,
+    "NDCG@20": 0.30505,
+    "TailRecall@20": 0.03083,
+    "HeadRecall@20": 0.27284,
+    "ItemCoverage@20": 0.48031,
+    "ARP@20": 0.3605,
+    "Novelty@20": 9.49463,
+    "Gini@20": 0.88386,
+    "TailShareRecs@20": 0.07545
+  }
+}

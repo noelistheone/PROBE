@@ -1,0 +1,19 @@
+training.set: ./dataset/douban-book/train.txt
+test.set: ./dataset/douban-book/test.txt
+model:
+  name: SSL4Rec
+  type: graph
+item.ranking.topN: [10,20]
+embedding.size: 64
+max.epoch: 100
+batch.size: 2048
+learning.rate: 0.001
+reg.lambda: 0.0001
+valid.ratio: 0.1
+split.seed: 2024
+eval.every: 5
+SSL4Rec:
+  tau: 0.07
+  alpha: 0.1
+  drop: 0.1
+output: ./results/

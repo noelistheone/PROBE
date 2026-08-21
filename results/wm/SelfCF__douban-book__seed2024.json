@@ -1,0 +1,37 @@
+{
+  "model": "SelfCF",
+  "dataset": "douban-book",
+  "seed": 2024,
+  "best_val_epoch": 100,
+  "val_metrics": {
+    "Hit Ratio": 0.06543,
+    "Precision": 0.01384,
+    "Recall": 0.09356,
+    "NDCG": 0.04953
+  },
+  "config": "{'n_layer': 2, 'tau': 0.05}",
+  "metrics": {
+    "HitRatio@10": 0.03919,
+    "Precision@10": 0.04385,
+    "Recall@10": 0.0553,
+    "NDCG@10": 0.0625,
+    "TailRecall@10": 0.0,
+    "HeadRecall@10": 0.05666,
+    "ItemCoverage@10": 0.02828,
+    "ARP@10": 0.67236,
+    "Novelty@10": 8.78186,
+    "Gini@10": 0.99893,
+    "TailShareRecs@10": 0.00505,
+    "HitRatio@20": 0.06475,
+    "Precision@20": 0.03622,
+    "Recall@20": 0.08923,
+    "NDCG@20": 0.07007,
+    "TailRecall@20": 5e-05,
+    "HeadRecall@20": 0.09359,
+    "ItemCoverage@20": 0.05127,
+    "ARP@20": 0.54204,
+    "Novelty@20": 9.1238,
+    "Gini@20": 0.9979,
+    "TailShareRecs@20": 0.00565
+  }
+}

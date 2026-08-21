@@ -1,0 +1,37 @@
+{
+  "model": "XSimGCLg",
+  "dataset": "douban-book",
+  "seed": 2025,
+  "best_val_epoch": 44,
+  "val_metrics": {
+    "Hit Ratio": 0.13264,
+    "Precision": 0.02805,
+    "Recall": 0.17736,
+    "NDCG": 0.10792
+  },
+  "config": "{'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 1.0, 'geom_beta': 1.0}",
+  "metrics": {
+    "HitRatio@10": 0.08712,
+    "Precision@10": 0.09747,
+    "Recall@10": 0.12103,
+    "NDCG@10": 0.14693,
+    "TailRecall@10": 0.00966,
+    "HeadRecall@10": 0.12165,
+    "ItemCoverage@10": 0.13037,
+    "ARP@10": 0.26251,
+    "Novelty@10": 10.58852,
+    "Gini@10": 0.97834,
+    "TailShareRecs@10": 0.01778,
+    "HitRatio@20": 0.13172,
+    "Precision@20": 0.07368,
+    "Recall@20": 0.17062,
+    "NDCG@20": 0.15371,
+    "TailRecall@20": 0.02026,
+    "HeadRecall@20": 0.1814,
+    "ItemCoverage@20": 0.19928,
+    "ARP@20": 0.22175,
+    "Novelty@20": 10.90849,
+    "Gini@20": 0.9677,
+    "TailShareRecs@20": 0.02648
+  }
+}

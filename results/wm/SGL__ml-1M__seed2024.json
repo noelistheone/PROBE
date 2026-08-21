@@ -1,0 +1,37 @@
+{
+  "model": "SGL",
+  "dataset": "ml-1M",
+  "seed": 2024,
+  "best_val_epoch": 26,
+  "val_metrics": {
+    "Hit Ratio": 0.18727,
+    "Precision": 0.07149,
+    "Recall": 0.25439,
+    "NDCG": 0.17307
+  },
+  "config": "{'n_layer': 2, 'lambda': 0.1, 'drop_rate': 0.1, 'aug_type': 1, 'temp': 0.2}",
+  "metrics": {
+    "HitRatio@10": 0.12867,
+    "Precision@10": 0.24714,
+    "Recall@10": 0.18111,
+    "NDCG@10": 0.30369,
+    "TailRecall@10": 0.00422,
+    "HeadRecall@10": 0.17636,
+    "ItemCoverage@10": 0.25755,
+    "ARP@10": 0.45105,
+    "Novelty@10": 9.02868,
+    "Gini@10": 0.94387,
+    "TailShareRecs@10": 0.01738,
+    "HitRatio@20": 0.20406,
+    "Precision@20": 0.19597,
+    "Recall@20": 0.27226,
+    "NDCG@20": 0.30405,
+    "TailRecall@20": 0.01092,
+    "HeadRecall@20": 0.27809,
+    "ItemCoverage@20": 0.3455,
+    "ARP@20": 0.40632,
+    "Novelty@20": 9.21166,
+    "Gini@20": 0.92539,
+    "TailShareRecs@20": 0.0277
+  }
+}

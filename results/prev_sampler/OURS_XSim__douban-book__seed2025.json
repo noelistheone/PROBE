@@ -1,0 +1,31 @@
+{
+  "model": "PT4Rec_Enhanced",
+  "dataset": "douban-book",
+  "seed": 2025,
+  "best_val_epoch": 6,
+  "config": "-n_layer 2 -temp 0.2 -prompt_size 64 -user_prompt_num 3 -pretrain_model XSimGCL -simgcl_eps 0.1 -simgcl_n_layers 3 -xsimgcl_eps 0.2 -xsimgcl_layer_cl 1 -dual_attention true -use_popularity true -pop_gamma 0.1 -pop_adaptive true -fusion_type multiply -warmup_epochs 10 -stage2_cl_weight 0.0 -prompt_dropout 0.1 -align_weight 0.02 -uniform_weight 0.01 -n_negs 4 -neg_mixup true -freeze_encoder true",
+  "metrics": {
+    "HitRatio@10": 0.03788,
+    "Precision@10": 0.04238,
+    "Recall@10": 0.06022,
+    "NDCG@10": 0.06863,
+    "TailRecall@10": 0.02228,
+    "HeadRecall@10": 0.04484,
+    "ItemCoverage@10": 0.27517,
+    "ARP@10": 0.12115,
+    "Novelty@10": 12.53441,
+    "Gini@10": 0.933,
+    "TailShareRecs@10": 0.23547,
+    "HitRatio@20": 0.0564,
+    "Precision@20": 0.03155,
+    "Recall@20": 0.08309,
+    "NDCG@20": 0.07237,
+    "TailRecall@20": 0.03394,
+    "HeadRecall@20": 0.06641,
+    "ItemCoverage@20": 0.36956,
+    "ARP@20": 0.10532,
+    "Novelty@20": 12.78191,
+    "Gini@20": 0.91386,
+    "TailShareRecs@20": 0.26493
+  }
+}

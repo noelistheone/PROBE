@@ -1,0 +1,17 @@
+training.set: ./dataset/douban-book/train.txt
+test.set: ./dataset/douban-book/test.txt
+model:
+  name: PT4Rec_Enhanced
+  type: graph
+item.ranking.topN: [10,20]
+embedding.size: 64
+max.epoch: 100
+batch.size: 2048
+learning.rate: 0.001
+reg.lambda: 0.0001
+valid.ratio: 0.1
+split.seed: 2024
+eval.every: 5
+num.max.preepoch: 20
+PT4Rec_Enhanced: -n_layer 2 -temp 0.2 -prompt_size 64 -user_prompt_num 3 -pretrain_model XSimGCL -simgcl_eps 0.1 -simgcl_n_layers 3 -xsimgcl_eps 0.2 -xsimgcl_layer_cl 1 -dual_attention true -use_popularity true -pop_gamma 0.1 -pop_adaptive true -fusion_type multiply -warmup_epochs 10 -stage2_cl_weight 0.0 -prompt_dropout 0.1 -align_weight 0.02 -uniform_weight 0.01 -n_negs 4 -neg_mixup true -freeze_encoder false
+output: ./results/

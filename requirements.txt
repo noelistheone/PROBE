@@ -1,0 +1,8 @@
+numba
+numpy
+PyYAML
+scipy
+scikit-learn
+torch
+matplotlib          # figures only
+faiss-cpu           # NCL baseline only

@@ -1,0 +1,22 @@
+{
+  "XSimGCL (backbone)": {
+    "wall_3ep_s": 41.612553358078,
+    "peak_gpu_gb": 0.296640512,
+    "trainable_tensors": null
+  },
+  "PT4Rec": {
+    "wall_3ep_s": 38.55933904647827,
+    "peak_gpu_gb": 0.32073216,
+    "trainable_tensors": 9
+  },
+  "Ours$_{-g}$": {
+    "wall_3ep_s": 40.18045115470886,
+    "peak_gpu_gb": 0.322472448,
+    "trainable_tensors": 12
+  },
+  "Ours (+DAGR)": {
+    "wall_3ep_s": 39.56017708778381,
+    "peak_gpu_gb": 0.322612224,
+    "trainable_tensors": 12
+  }
+}
