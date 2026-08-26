@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Measure per-epoch training time, peak GPU memory and trainable parameters for each variant."""
-import os, sys, time, json, subprocess, re
+import os, sys, sys, time, json, subprocess, re
 VARIANTS=[('XSimGCL (backbone)','XSimGCLg_w00'),('PT4Rec','PTbase_XSim_nofz'),
           ('Ours$_{-g}$','OURS_XSim_nofz'),('Ours (+DAGR)','OURSgeom_w2')]
 PY = sys.executable

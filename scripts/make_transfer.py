@@ -5,12 +5,12 @@ Uses the three canonical seeds (2024-2026) wherever they exist; cells backed by 
 marked, as are cells produced under the earlier negative sampler.
 """
 import json, math, os
-R = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'results')
+R = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results')
 SEEDS = ['2024', '2025', '2026']
 
 def ms(tag, ds):
     """-> (mean, n_seeds, 'cur'|'old') or None."""
-    for sub, src in (('wm', 'cur'), ('prev_sampler', 'old')):
+    for sub, src in (('wm', 'cur'), ('prev_sampler', 'old'), ('prev_sampler', 'old')):
         fs = [os.path.join(R, sub, f'{tag}__{ds}__seed{s}.json') for s in SEEDS]
         v = [json.load(open(f))['metrics']['NDCG@20'] for f in fs if os.path.exists(f)]
         if v:
@@ -37,9 +37,8 @@ print(r"""\begin{table}[t]
 pre-trained encoder}, with the prompt-tuning stage removed. $\Delta$ is against that encoder, and the
 uniform and adaptive columns are dose-matched at $\mu_g{=}2$. Uniform weighting helps on Douban-Book
 and is destructive on the dense benchmark; degree adaptation bounds that damage without turning it
-into a gain, and no exponent is best everywhere. Three seeds unless marked $*$, which denotes a single
-run. $\ddagger$: run under an earlier, slower negative sampler, which differs from the current one in
-the third decimal.}
+into a gain, and no exponent is best everywhere. Three seeds throughout, all under the same negative
+sampler; $\beta{=}1$ was not run on Amazon-Kindle.}
 \label{tab:transfer}
 \setlength{\tabcolsep}{2.5pt}
 \resizebox{\columnwidth}{!}{%

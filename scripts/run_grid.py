@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Multi-seed experiment grid driver.
+"""Multi-seed experiment grid driver for the OURS resubmission.
 
 Generates a config per (model, dataset), then runs it under the fixed harness
 (train/val/test split, val-based selection, frozen encoder, real L2-SP, batched
@@ -13,7 +13,7 @@ Usage:
 """
 import argparse, os, subprocess, sys, time
 
-REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PY = sys.executable
 
 DATASETS = {  # name -> (train, test, has_social_trust)
@@ -50,6 +50,8 @@ MODELS = {
     'SelfCF':    ('SelfCF',   {'n_layer': 2, 'tau': 0.05}, 100, False, 0),
     'SSL4Rec':   ('SSL4Rec',  {'tau': 0.07, 'alpha': 0.1, 'drop': 0.1}, 100, False, 0),
     'CPTPP':     ('CPTPP',    '-n_layer 2 -lambda 0.1 -droprate 0.1 -augtype 1 -temp 0.2 -inputs_type 2 -prompt_size 256', 100, False, 0),
+    'MHCN':      ('MHCN',     {'n_layer': 2, 'ss_rate': 0.01}, 200, True, 0),
+    'SEPT':      ('SEPT',     {'n_layer': 2, 'ss_rate': 0.005, 'drop_rate': 0.3, 'ins_cnt': 10}, 200, True, 0),
     'PTbase_Sim':  ('PT4Rec_Enhanced', _PTBASE.format(bk='SimGCL'),  100, False, 20),
     'PTbase_XSim': ('PT4Rec_Enhanced', _PTBASE.format(bk='XSimGCL'), 100, False, 20),
     'OURS_Sim':    ('PT4Rec_Enhanced', _OURS.format(bk='SimGCL'),    100, False, 20),
@@ -62,8 +64,24 @@ MODELS = {
     'PTbase_XSim_nofz': ('PT4Rec_Enhanced', _PTBASE.format(bk='XSimGCL').replace('-freeze_encoder true', '-freeze_encoder false'), 100, False, 20),
     'OURS_XSim_nofz':   ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true', '-freeze_encoder false'), 100, False, 20),
     # --- NEW principled method: signed (bipolar) layer aggregation on a SimGCL backbone ---
+    'SGCL_L2':      ('SGCL', {'n_layer': 2, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'signed': 'true'}, 100, False, 0),
+    'SGCL_L3':      ('SGCL', {'n_layer': 3, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'signed': 'true'}, 100, False, 0),
+    'SGCL_L4':      ('SGCL', {'n_layer': 4, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'signed': 'true'}, 100, False, 0),
+    'SGCL_L3_uns':  ('SGCL', {'n_layer': 3, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'signed': 'false'}, 100, False, 0),
+    'SGCL_gl':      ('SGCL', {'n_layer': 3, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'signed': 'true', 'router': 'global'}, 100, False, 0),
+    'SGCL_geom':    ('SGCL', {'n_layer': 3, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'signed': 'false', 'router': 'global', 'geom_w': 0.5}, 100, False, 0),
+    'SGCL_gl_geom': ('SGCL', {'n_layer': 3, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'signed': 'true', 'router': 'global', 'geom_w': 0.5}, 100, False, 0),
     # clean SimGCL mean-aggregation backbone + one principle at a time (isolate geom / pop)
+    'Smean':        ('SGCL', {'n_layer': 2, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'router': 'mean'}, 100, False, 0),
+    'Smean_geom':   ('SGCL', {'n_layer': 2, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'router': 'mean', 'geom_w': 0.5}, 100, False, 0),
+    'Smean_pop':    ('SGCL', {'n_layer': 2, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'router': 'mean', 'pop_w': 0.1}, 100, False, 0),
+    'Smean_pop05':  ('SGCL', {'n_layer': 2, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'router': 'mean', 'pop_w': 0.5}, 100, False, 0),
     # geom_w sweep for the promising geometric-regularization method (GRGCL)
+    'GRGCL_w01':    ('SGCL', {'n_layer': 2, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'router': 'mean', 'geom_w': 0.1}, 100, False, 0),
+    'GRGCL_w02':    ('SGCL', {'n_layer': 2, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'router': 'mean', 'geom_w': 0.2}, 100, False, 0),
+    'GRGCL_w05':    ('SGCL', {'n_layer': 2, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'router': 'mean', 'geom_w': 0.5}, 100, False, 0),
+    'GRGCL_w10':    ('SGCL', {'n_layer': 2, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'router': 'mean', 'geom_w': 1.0}, 100, False, 0),
+    'GRGCL_w20':    ('SGCL', {'n_layer': 2, 'lambda': 0.5, 'eps': 0.1, 'tau': 0.2, 'router': 'mean', 'geom_w': 2.0}, 100, False, 0),
     # DECISIVE: geometric-reg on the STRONGEST backbone (XSimGCL) — does it help + generalize?
     'XSimGCLg_w00': ('XSimGCLg', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 0.0}, 100, False, 0),
     'XSimGCLg_w05': ('XSimGCLg', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 0.5}, 100, False, 0),
@@ -76,6 +94,10 @@ MODELS = {
     'AdaG_b10w2': ('XSimGCLg', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 2.0, 'geom_beta': 1.0}, 100, False, 0),
     'AdaG_b20w2': ('XSimGCLg', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 2.0, 'geom_beta': 2.0}, 100, False, 0),
     # SSU (Spectral-Subspace Uniformity) — innovation-panel top pick. Beat AdaG on dense while holding sparse?
+    'SSU_11':  ('SSU', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'lambda_h': 1.0, 'lambda_l': 1.0, 'rho': 0.9, 't': 2.0}, 100, False, 0),
+    'SSU_h2':  ('SSU', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'lambda_h': 2.0, 'lambda_l': 1.0, 'rho': 0.9, 't': 2.0}, 100, False, 0),
+    'SSU_l0':  ('SSU', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'lambda_h': 1.0, 'lambda_l': 0.0, 'rho': 0.9, 't': 2.0}, 100, False, 0),
+    'SSU_r95': ('SSU', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'lambda_h': 1.0, 'lambda_l': 1.0, 'rho': 0.95, 't': 2.0}, 100, False, 0),
     'OURSgeom_b05': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true', '-freeze_encoder false') + ' -geom_w 1.0 -geom_beta 0.5', 100, False, 20),
     'OURSgeom_b10': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true', '-freeze_encoder false') + ' -geom_w 1.0 -geom_beta 1.0', 100, False, 20),
     'OURSgeom_w2':  ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true', '-freeze_encoder false') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
@@ -106,12 +128,21 @@ MODELS = {
     'SW_g0p5': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true', '-freeze_encoder false').replace('-pop_gamma 0.1','-pop_gamma 0.5') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
     'AB_full':   ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
     'AB_nodual': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false') .replace('-dual_attention true','-dual_attention false') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
+    # capacity-matched popularity control: the head and its parameters stay, gamma=0 so it
+    # cannot subtract anything -- separates 'the subtraction is inert' from 'the capacity is inert'.
+    'AB_popg0': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false').replace('-pop_gamma 0.1','-pop_gamma 0.0') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
     'AB_nopop':  ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false') .replace('-use_popularity true','-use_popularity false') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
     'AB_nogeom': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false'), 100, False, 20),
     'AB_nohn':   ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false') .replace('-n_negs 4','-n_negs 1').replace('-neg_mixup true','-neg_mixup false') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
     'AB_geomonly': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false') .replace('-dual_attention true','-dual_attention false').replace('-use_popularity true','-use_popularity false').replace('-n_negs 4','-n_negs 1').replace('-neg_mixup true','-neg_mixup false') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
+    'SRC':      ('SRC', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'gamma': 0.1, 'beta': 1.0}, 100, False, 0),
     'LightGCL': ('LightGCL', {'n_layer': 2, 'lambda': 0.2, 'tau': 0.2, 'q': 5}, 100, False, 0),
     # innovation-panel-2 candidates: PCNS (negative selection) + OT-CF (objective)
+    'PCNS':     ('PCNS', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'n_cand': 32, 'pcns_lambda': 1.0}, 100, False, 0),
+    'PCNS_dns': ('PCNS', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'n_cand': 32, 'pcns_lambda': 0.0}, 100, False, 0),
+    'PCNS_l2':  ('PCNS', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'n_cand': 32, 'pcns_lambda': 2.0}, 100, False, 0),
+    'OTCF_r05': ('OTCF', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'rho': 0.5, 'sinkhorn_eps': 0.05, 'sinkhorn_iters': 8}, 100, False, 0),
+    'OTCF_r10': ('OTCF', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'rho': 1.0, 'sinkhorn_eps': 0.05, 'sinkhorn_iters': 8}, 100, False, 0),
     # sharp-gate AdaG: zero geom reg for dense nodes (pure XSimGCL) -> aim >= XSimGCL on BOTH regimes
     'AdaS_t5':   ('XSimGCLg', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 1.0, 'geom_gate': 'sigmoid', 'geom_tau': 0.5, 'geom_a': 5.0}, 100, False, 0),
     'AdaS_t3':   ('XSimGCLg', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 1.0, 'geom_gate': 'sigmoid', 'geom_tau': 0.3, 'geom_a': 5.0}, 100, False, 0),

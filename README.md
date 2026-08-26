@@ -83,8 +83,12 @@ decomposition in the paper measurable:
 
 ```bash
 python scripts/report_paper_numbers.py     # every number in the paper, with its source tag
+python scripts/significance.py             # paired tests over seeds, ours vs the best baseline
+python scripts/per_user_significance.py    # Wilcoxon signed-rank over users, from the ranking dumps
 python scripts/make_table.py  > tab_main.tex
 python scripts/make_transfer.py > tab_transfer.tex
+python scripts/make_protocol.py > tab_protocol.tex
+python scripts/make_ablation.py > tab_ablation.tex
 python scripts/make_figs.py                # writes figures/
 ```
 
@@ -103,7 +107,8 @@ All tables use the three canonical seeds 2024, 2025 and 2026.
 | encoder genuinely frozen | `PTbase_XSim`, `OURS_XSim` (in `results/prev_sampler/`) |
 | regularizer on the encoder alone | `XSimGCLg_w00` (off), `XSimGCLg_w20` (uniform), `AdaG_b05`, `AdaG_b10` |
 | dose-response | `XSimGCLg_w00`, `XSimGCLg_w10`, `XSimGCLg_w20` |
-| noise floor | `results/wm_noisefloor/` |
+| noise floor | `results/wm_noisefloor/` (Douban); on ML-1M, `AB_full` and `OURSgeom_w2` are byte-identical configurations, giving six runs of one config |
+| capacity-matched popularity control | `AB_popg0` |
 | chronological split | any tag on dataset `ml-1M-temporal` |
 
 The PT4Rec baseline is run through the same code path with every added module disabled

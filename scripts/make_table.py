@@ -1,12 +1,17 @@
 #!/usr/bin/env python
 """Generate the main IEEE results table straight from results/wm/*.json.
 Columns with no data on any dataset are dropped automatically."""
-import glob, json, math, os, sys
-RESULTS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'results')
+import glob, json, math, sys
+# SAC version: NDCG and Recall only. Hit Ratio and Precision are near-monotone transforms of these
+# (the harness's HR is micro-averaged recall, and P@N is R@N rescaled per user); both are released
+# per seed. Set FULL=True to restore all eight.
+FULL = False
 METS=[('HitRatio@10','HR@10'),('HitRatio@20','HR@20'),('Precision@10','P@10'),('Precision@20','P@20'),
       ('NDCG@10','N@10'),('NDCG@20','N@20'),('Recall@10','R@10'),('Recall@20','R@20')]
+if not FULL: METS=[m for m in METS if m[1].startswith(('N@','R@'))]
 BASE=[('MF','MF'),('LightGCN','LGCN'),('SGL','SGL'),('NCL','NCL'),('SSL4Rec','SSL4Rec'),
-      ('DirectAU','DirectAU'),('BUIR','BUIR'),('SelfCF','SelfCF'),('CPTPP','CPTPP'),('LightGCL','LightGCL')]
+      ('DirectAU','DirectAU'),('BUIR','BUIR'),('SelfCF','SelfCF'),('CPTPP','CPTPP'),('LightGCL','LightGCL'),
+      ('SimGCL','SimGCL')]
 BACK=[('XSimGCLg_w00','XSimGCL$^{\\dagger}$')]
 OURS=[('PTbase_XSim_nofz','PT4Rec'),('OURS_XSim_nofz','Ours$_{-g}$'),('OURSgeom_w2','\\textbf{Ours}')]
 DS=[('douban-book','Douban-Book'),('ml-1M','ML-1M'),('yelp2018','Yelp2018')]
@@ -15,7 +20,7 @@ def f4(x):
     import math
     return f"{math.floor(x*1e4+0.5)/1e4:.4f}"
 def st(t,ds,m):
-    fs=[f'{RESULTS}/wm/{t}__{ds}__seed{s}.json' for s in SEEDS]
+    fs=[f'./results/wm/{t}__{ds}__seed{s}.json' for s in SEEDS]
     v=[json.load(open(f))['metrics'][m] for f in fs if glob.glob(f)]
     if not v: return None
     return sum(v)/len(v), len(v)
@@ -45,7 +50,7 @@ for di,(ds,dn) in enumerate(DS):
         vals=[(n,st(t,ds,mk)) for t,n in tags]
         pres=[v[0] for _,v in vals if v]; best=max(pres) if pres else None
         cells=['--' if v is None else (f"\\textbf{{{f4(v[0])}}}" if abs(v[0]-best)<1e-12 else f4(v[0])) for _,v in vals]
-        lead=f"\\multirow{{8}}{{*}}{{{dn}}}" if r==0 else ""
+        lead=f"\\multirow{{{len(METS)}}}{{*}}{{{dn}}}" if r==0 else ""
         print(f"{lead} & {mn} & "+" & ".join(cells)+r" \\")
     if di<len(DS)-1: print(r"\midrule")
 print(r"""\bottomrule

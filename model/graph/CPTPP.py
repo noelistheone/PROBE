@@ -3,6 +3,7 @@
 ##########################
 
 
+from turtle import forward
 import torch
 torch.manual_seed(12345)
 import torch.nn as nn

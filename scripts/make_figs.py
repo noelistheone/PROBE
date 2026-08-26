@@ -5,7 +5,7 @@ import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
-REPO=os.path.dirname(os.path.dirname(os.path.abspath(__file__))); OUT=f'{REPO}/figures'
+REPO='.'; OUT=f'{REPO}/paper_ieee/fig'
 os.makedirs(OUT, exist_ok=True)
 plt.rcParams.update({'font.size':8,'axes.labelsize':8,'axes.titlesize':8.5,'xtick.labelsize':7,
     'ytick.labelsize':7,'legend.fontsize':7,'figure.dpi':300,'savefig.dpi':300,
@@ -22,6 +22,23 @@ def ms(t,ds,m='NDCG@20'):
     if not v: return None
     mu=sum(v)/len(v); sd=math.sqrt(sum((x-mu)**2 for x in v)/(len(v)-1)) if len(v)>1 else 0.
     return mu,sd
+
+# ---- Fig 1: protocol effect (leaky vs controlled) --------------------------
+def fig_protocol():
+    leaky={'PT4Rec':0.13059,'OURS':0.15059}      # as reported in the earlier version (Douban NDCG@20)
+    hon={'PT4Rec':ms('PTbase_XSim_nofz','douban-book')[0],'OURS':ms('OURSgeom_w2','douban-book')[0]}
+    fig,ax=plt.subplots(figsize=(3.3,2.0))
+    x=np.arange(2); w=.36
+    ax.bar(x-w/2,[leaky['PT4Rec'],leaky['OURS']],w,label='test-set selection (as reported)',
+           color=C['warn'],edgecolor='k',linewidth=.4)
+    ax.bar(x+w/2,[hon['PT4Rec'],hon['OURS']],w,label='validation-only selection (ours)',
+           color=C['ours'],edgecolor='k',linewidth=.4)
+    for i,(a,b) in enumerate(zip([leaky['PT4Rec'],leaky['OURS']],[hon['PT4Rec'],hon['OURS']])):
+        ax.text(i-w/2,a+.002,f'{a:.3f}',ha='center',fontsize=6)
+        ax.text(i+w/2,b+.002,f'{b:.3f}',ha='center',fontsize=6)
+    ax.set_xticks(x); ax.set_xticklabels(['PT4Rec','OURS'])
+    ax.set_ylabel('NDCG@20'); ax.set_ylim(0,.19); ax.legend(frameon=False,loc='upper left',fontsize=6)
+    fig.savefig(f'{OUT}/protocol.pdf'); plt.close(fig); print('protocol.pdf')
 
 # ---- Fig 2: geom dose-response (single panel; density panel removed as unsupported) ----
 def fig_dose_density():
@@ -94,6 +111,6 @@ def fig_spectrum():
     ax.legend(frameon=False,fontsize=6)
     fig.savefig(f'{OUT}/spectrum.pdf'); plt.close(fig); print('spectrum.pdf')
 
-for f in (fig_dose_density,fig_sensitivity,fig_exposure,fig_spectrum):
+for f in (fig_protocol,fig_dose_density,fig_sensitivity,fig_exposure,fig_spectrum):
     try: f()
     except Exception as e: print(f.__name__,'FAILED',e)
