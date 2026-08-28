@@ -2,9 +2,10 @@
 r"""Protocol-decomposition table: each shortcut isolated as one binary condition, on both benchmarks."""
 import json, math, os, statistics as st
 R = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'results')
-WM, OLD = os.path.join(R, 'wm'), os.path.join(R, 'prev_sampler')
+WM = os.path.join(R, "wm")
 S = ['2024', '2025', '2026']
-FROZEN = {'PTbase_XSim_nofz': 'PTbase_XSim', 'OURSgeom_w2': 'OURS_XSim'}
+# frozen counterparts differ from their joint arm ONLY in -freeze_encoder
+FROZEN = {'PTbase_XSim_nofz': 'PTbase_XSim', 'OURSgeom_w2': 'OURSgeom_w2_fz'}
 ROWS = [('XSimGCL (backbone)', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSim_nofz'), ('Ours', 'OURSgeom_w2')]
 
 def ser(tag, ds, d=WM):
@@ -24,8 +25,6 @@ def block(ds):
             cells.append(f'${sum(v)/len(v):.4f}$ \\,(${100*(sum(v)/len(v)-b)/b:+.1f}\\%$)' if v else '--')
         fz = FROZEN.get(tag)
         v = ser(fz, ds) if fz else []
-        if not v and fz:
-            v = ser(fz, ds, OLD)
         cells.append(f'${sum(v)/len(v):.4f}$ \\,($\\times{sum(v)/len(v)/b:.2f}$)' if v else '---')
         out.append(f'{name} & ' + ' & '.join(cells) + r' \\')
     return out
@@ -37,7 +36,8 @@ print(r"""\begin{table}[t]
 reported epoch; ``no validation split'' is the common implementation, in which the held-out
 interactions return to training \emph{and} selection sees the test set. Isolated, the selection
 shortcut stays below each dataset's noise floor on both; almost all of the inflation comes from the
-data the split would have removed, and the frozen/joint discrepancy is larger than either.}
+data the split would have removed, and the frozen/joint discrepancy is larger than either. Each arm differs from its
+controlled counterpart in exactly one setting.}
 \label{tab:protocol}
 \setlength{\tabcolsep}{2.5pt}
 \resizebox{\columnwidth}{!}{%

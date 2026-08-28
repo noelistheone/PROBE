@@ -13,7 +13,7 @@ Usage:
 """
 import argparse, os, subprocess, sys, time
 
-REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = sys.executable
 
 DATASETS = {  # name -> (train, test, has_social_trust)
@@ -130,6 +130,11 @@ MODELS = {
     'AB_nodual': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false') .replace('-dual_attention true','-dual_attention false') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
     # capacity-matched popularity control: the head and its parameters stay, gamma=0 so it
     # cannot subtract anything -- separates 'the subtraction is inert' from 'the capacity is inert'.
+    # dose-matched adaptive arms: same mu_g as the uniform column, so the contrast isolates beta
+    'AdaG_b05w2': ('XSimGCLg', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 2.0, 'geom_beta': 0.5}, 100, False, 0),
+    'AdaG_b10w2': ('XSimGCLg', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 2.0, 'geom_beta': 1.0}, 100, False, 0),
+    # frozen encoder WITH the geometric term, so the frozen/joint ratio changes one thing only
+    'OURSgeom_w2_fz': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
     'AB_popg0': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false').replace('-pop_gamma 0.1','-pop_gamma 0.0') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
     'AB_nopop':  ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false') .replace('-use_popularity true','-use_popularity false') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
     'AB_nogeom': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false'), 100, False, 20),

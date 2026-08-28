@@ -7,7 +7,7 @@ Run from the repository root:  python scripts/report_paper_numbers.py
 """
 import glob, json, math, os, statistics as st
 
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CUR = os.path.join(ROOT, 'results', 'wm')
 OLD = os.path.join(ROOT, 'results', 'prev_sampler')
 NF = os.path.join(ROOT, 'results', 'wm_noisefloor')

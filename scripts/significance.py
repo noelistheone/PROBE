@@ -8,7 +8,8 @@ SEEDS = ['2024', '2025', '2026']
 BASELINES = ['MF', 'LightGCN', 'SGL', 'NCL', 'SSL4Rec', 'DirectAU', 'BUIR', 'SelfCF', 'CPTPP', 'LightGCL']
 BACKBONE = 'XSimGCLg_w00'
 OURS = {'douban-book': 'OURSgeom_w2', 'ml-1M': 'OURS_XSim_nofz', 'yelp2018': 'OURSgeom_w2'}
-NOISE = 0.00065
+# measured per dataset -- applying one dataset's floor to another is exactly the error this paper is about
+FLOOR = {'douban-book': 0.00065, 'ml-1M': 0.00219, 'yelp2018': 0.00065}
 
 def series(tag, ds, met):
     out = []
@@ -28,12 +29,12 @@ def ttest_paired(a, b):
     t = st.mean(d) / (sd / math.sqrt(n))
     return t, sd, st.mean(d)
 
-# two-sided p for t with df=2 (closed form: p = 1 - (2/pi)*[atan(x) + x/(1+x^2)] for df=2)
 def p_df2(t):
+    """Exact two-sided p for Student's t with df=2: F(x) = 1/2 + x / (2*sqrt(x^2+2))."""
     x = abs(t)
-    if math.isinf(x): return 0.0
-    cdf = 0.5 + (1/math.pi) * (math.atan(x/math.sqrt(2)) + (x/math.sqrt(2)) / (1 + x*x/2))
-    return 2 * (1 - cdf)
+    if math.isinf(x):
+        return 0.0
+    return 2 * (1 - (0.5 + x / (2 * math.sqrt(x * x + 2))))
 
 print(f'{"dataset":14s} {"metric":9s} {"ours":>8s} {"best baseline":>22s} {"delta":>9s} {"t(2)":>7s} {"p":>7s} {"vs noise":>9s}')
 print('-' * 92)
@@ -46,7 +47,7 @@ for ds in ['douban-book', 'ml-1M', 'yelp2018']:
         best, bv = max(cands, key=lambda kv: sum(kv[1]) / len(kv[1]))
         t, sd, md = ttest_paired(o, bv)
         p = p_df2(t)
-        ratio = abs(md) / NOISE
+        ratio = abs(md) / FLOOR.get(ds, 0.00065)
         print(f'{ds:14s} {met:9s} {sum(o)/len(o):8.4f} {best:>14s} {sum(bv)/len(bv):7.4f} '
               f'{md:+9.5f} {t:7.2f} {p:7.4f} {ratio:8.1f}x')
     ci = 1.96 * st.stdev(series(ours_tag, ds, 'NDCG@20')) / math.sqrt(3)
