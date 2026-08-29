@@ -9,7 +9,7 @@ BASELINES = ['MF', 'LightGCN', 'SGL', 'NCL', 'SSL4Rec', 'DirectAU', 'BUIR', 'Sel
 BACKBONE = 'XSimGCLg_w00'
 OURS = {'douban-book': 'OURSgeom_w2', 'ml-1M': 'OURS_XSim_nofz', 'yelp2018': 'OURSgeom_w2'}
 # measured per dataset -- applying one dataset's floor to another is exactly the error this paper is about
-FLOOR = {'douban-book': 0.00065, 'ml-1M': 0.00219, 'yelp2018': 0.00065}
+FLOOR = {'douban-book': 0.00065, 'ml-1M': 0.00070, 'yelp2018': 0.00065}
 
 def series(tag, ds, met):
     out = []

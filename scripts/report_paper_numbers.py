@@ -9,9 +9,15 @@ import glob, json, math, os, statistics as st
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CUR = os.path.join(ROOT, 'results', 'wm')
-OLD = os.path.join(ROOT, 'results', 'prev_sampler')
 NF = os.path.join(ROOT, 'results', 'wm_noisefloor')
 SEEDS = ['2024', '2025', '2026']          # the canonical seed set used by every table
+
+def _prefix():
+    """Records ship with an anonymized tag prefix; accept either naming."""
+    return 'OURS' if glob.glob(os.path.join(CUR, 'OURSgeom_w2__*.json')) else 'OURS'
+
+P = _prefix()
+OURS_GEOM, OURS_NOGEOM, OURS_FROZEN = f'{P}geom_w2', f'{P}_XSim_nofz', f'{P}geom_w2_fz'
 
 
 def rec(tag, ds, seed, d=CUR):
@@ -50,7 +56,7 @@ TAGS = [('MF', 'MF'), ('LightGCN', 'LightGCN'), ('SGL', 'SGL'), ('NCL', 'NCL'),
         ('SSL4Rec', 'SSL4Rec'), ('DirectAU', 'DirectAU'), ('BUIR', 'BUIR'),
         ('SelfCF', 'SelfCF'), ('CPTPP', 'CPTPP'), ('LightGCL', 'LightGCL'),
         ('XSimGCL (backbone)', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSim_nofz'),
-        ('Ours -g', 'OURS_XSim_nofz'), ('Ours', 'OURSgeom_w2')]
+        ('Ours -g', OURS_NOGEOM), ('Ours', OURS_GEOM)]
 for ds in ['douban-book', 'ml-1M', 'yelp2018']:
     print(f'\n{ds}')
     for name, tag in TAGS:
@@ -60,9 +66,9 @@ for ds in ['douban-book', 'ml-1M', 'yelp2018']:
             print(f'  {name:20s} {f4(sum(v)/len(v))}  sd={sd:.5f}  n={len(v)}  [{tag}]')
 
 head('Table II  Protocol decomposition on Douban-Book (paired, 3 seeds)')
-FROZEN = {'PTbase_XSim_nofz': 'PTbase_XSim', 'OURSgeom_w2': 'OURS_XSim'}
+FROZEN = {'PTbase_XSim_nofz': 'PTbase_XSim', OURS_GEOM: OURS_FROZEN}
 for name, tag in [('XSimGCL (backbone)', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSim_nofz'),
-                  ('Ours', 'OURSgeom_w2')]:
+                  ('Ours', OURS_GEOM)]:
     base = series(tag, 'douban-book')
     b = sum(base) / len(base)
     line = f'  {name:20s} controlled {f4(b)}'
@@ -75,7 +81,7 @@ for name, tag in [('XSimGCL (backbone)', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSi
             line += f' | {lab} {f4(m)} ({pct(m, b)}, paired d={st.mean(d):+.5f}, t={t:.2f})'
     fz = FROZEN.get(tag)
     if fz:
-        v = series(fz, 'douban-book', d=OLD)
+        v = series(fz, 'douban-book')
         if v:
             m = sum(v) / len(v)
             line += f' | encoder-frozen {f4(m)} (x{m/b:.2f})'
@@ -98,7 +104,7 @@ for name, tag in [('full system', 'AB_full'), ('- geometric module', 'AB_nogeom'
 head('Table IV  Beyond-accuracy on Douban-Book (3 seeds)')
 METS = ['NDCG@20', 'TailRecall@20', 'ItemCoverage@20', 'ARP@20', 'Novelty@20', 'Gini@20']
 for name, tag in [('XSimGCL (backbone)', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSim_nofz'),
-                  ('+ routing, popularity', 'OURS_XSim_nofz'), ('+ geometric (ours)', 'OURSgeom_w2'),
+                  ('+ routing, popularity', OURS_NOGEOM), ('+ geometric (ours)', OURS_GEOM),
                   ('DirectAU', 'DirectAU')]:
     cells = []
     for m in METS:
@@ -111,30 +117,42 @@ def val(tag, ds):
     v = [rec(tag, ds, s)['val_metrics']['NDCG'] for s in SEEDS if rec(tag, ds, s)]
     return sum(v) / len(v) if v else None
 for label, ds, opts in [
-        ('Douban-Book: module', 'douban-book', [('enabled', 'OURSgeom_w2'), ('disabled', 'OURS_XSim_nofz')]),
-        ('ML-1M: module', 'ml-1M', [('enabled', 'OURSgeom_w2'), ('disabled', 'OURS_XSim_nofz')]),
+        ('Douban-Book: module', 'douban-book', [('enabled', OURS_GEOM), ('disabled', OURS_NOGEOM)]),
+        ('ML-1M: module', 'ml-1M', [('enabled', OURS_GEOM), ('disabled', OURS_NOGEOM)]),
         ('Douban-Book: exponent', 'douban-book', [('beta=0.5', 'AdaG_b05'), ('beta=1.0', 'AdaG_b10')]),
         ('ML-1M: exponent', 'ml-1M', [('beta=0.5', 'AdaG_b05'), ('beta=1.0', 'AdaG_b10')])]:
     for o, tag in opts:
         print(f'  {label:24s} {o:9s} val={f4(val(tag, ds))}  test={f4(mean(tag, ds))}  [{tag}]')
 
-head('Table VI  Regularizer applied to the encoder alone (dagger = earlier sampler)')
+head('Table V  Regularizer applied to the encoder alone (full (beta, mu_g) grid)')
 for ds in ['amazon-kindle', 'yelp2018', 'douban-book', 'ml-1M']:
-    b = mean('XSimGCLg_w00', ds) or mean('XSimGCLg_w00', ds, d=OLD)
+    b = mean('XSimGCLg_w00', ds)
     row = f'  {ds:14s} encoder {f4(b)}'
-    for tag, lab in [('XSimGCLg_w20', 'uniform'), ('AdaG_b05', 'DA b=0.5'), ('AdaG_b10', 'DA b=1')]:
+    for tag, lab in [('XSimGCLg_w10', 'uniform mu=1'), ('XSimGCLg_w20', 'uniform mu=2'),
+                     ('AdaG_b05', 'DA b=0.5 mu=1'), ('AdaG_b10', 'DA b=1 mu=1'),
+                     ('AdaG_b05w2', 'DA b=0.5 mu=2'), ('AdaG_b10w2', 'DA b=1 mu=2')]:
         m = mean(tag, ds)
         src = ''
-        if m is None:
-            m, src = mean(tag, ds, d=OLD), '(earlier sampler)'
         if m is not None:
             row += f' | {lab} {f4(m)} ({pct(m, b)}){src}'
     print(row)
 
 head('In-text numbers')
 nf = [json.load(open(f))['metrics']['NDCG@20'] for f in glob.glob(os.path.join(NF, '*.json'))]
-print(f'  noise floor: n={len(nf)} identical runs, min={min(nf):.5f} max={max(nf):.5f} '
+print(f'  Douban-Book floor: n={len(nf)} repeats of one config at one seed, '
       f'spread={max(nf)-min(nf):.5f} sd={st.stdev(nf):.5f}')
+ml = [json.load(open(f))['metrics']['NDCG@20']
+      for f in sorted(glob.glob(os.path.join(CUR, 'NFml1m_r*__ml-1M__seed2024.json')))]
+if ml:
+    print(f'  ML-1M floor:       n={len(ml)} repeats of one config at one seed, '
+          f'spread={max(ml)-min(ml):.5f} sd={st.stdev(ml):.5f}')
+else:
+    print('  ML-1M floor:       repeats not present in this release')
+for a, b in [('AB_full', OURS_GEOM), ('AB_nogeom', OURS_NOGEOM)]:
+    v = series(a, 'ml-1M') + series(b, 'ml-1M')
+    if len(v) == 6:
+        print(f'    identical-config pair {a}/{b} (2 runs x 3 seeds): '
+              f'spread={max(v)-min(v):.5f} sd={st.stdev(v):.5f}')
 p = json.load(open(os.path.join(CUR, 'param_counts.json')))
 for k, v in p.items():
     print(f'  params {k:20s} encoder={v["encoder_params"]:,} added={v["added_params"]:,} (+{v["pct_added"]:.2f}%)')
@@ -146,7 +164,7 @@ print('  Proposition 2 grid search: ' + ', '.join(
     f'd={r["degree"]}: predicted {r["theory_mu_star"]:.2f} / measured {r["empirical_mu_star"]:.2f}' for r in th))
 print('  effective rank (one run per variant, Douban-Book):')
 for name, tag in [('XSimGCL', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSim_nofz'),
-                  ('Ours -g', 'OURS_XSim_nofz'), ('Ours', 'OURSgeom_w2')]:
+                  ('Ours -g', OURS_NOGEOM), ('Ours', OURS_GEOM)]:
     for f in sorted(glob.glob(os.path.join(CUR, f'{tag}__douban-book__seed*.json'))):
         g = json.load(open(f)).get('geometry', {})
         if 'user_eff_rank' in g:
@@ -155,7 +173,7 @@ for name, tag in [('XSimGCL', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSim_nofz'),
             break
 print('  ML-1M temporal split (per-user chronological 80/20, 3 seeds):')
 for name, tag in [('SGL', 'SGL'), ('NCL', 'NCL'), ('XSimGCL', 'XSimGCLg_w00'),
-                  ('PT4Rec', 'PTbase_XSim_nofz'), ('Ours -g', 'OURS_XSim_nofz'), ('Ours', 'OURSgeom_w2')]:
+                  ('PT4Rec', 'PTbase_XSim_nofz'), ('Ours -g', OURS_NOGEOM), ('Ours', OURS_GEOM)]:
     m = mean(tag, 'ml-1M-temporal')
     if m: print(f'    {name:10s} {f4(m)}')
 print('  Yelp2018 configuration sweep (all variants tried):')

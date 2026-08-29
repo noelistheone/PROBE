@@ -3,7 +3,7 @@ r"""Leave-one-out ablation table, both benchmarks, each judged against its OWN m
 import glob, json, os, statistics as st
 R = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'results', 'wm')
 S = ['2024', '2025', '2026']
-FLOOR = {'douban-book': 0.00065, 'ml-1M': 0.00219}   # measured, see the noise-floor subsection
+FLOOR = {'douban-book': 0.00065, 'ml-1M': 0.00070}   # measured, see the noise-floor subsection
 
 def series(tag, ds):
     return [json.load(open(f'{R}/{tag}__{ds}__seed{s}.json'))['metrics']['NDCG@20']
@@ -29,7 +29,7 @@ base = {ds: sum(series('AB_full', ds)) / len(series('AB_full', ds)) for ds in FL
 print(r"""\begin{table}[t]
 \centering
 \caption{Leave-one-out ablation (three seeds, NDCG@20). $\Delta$ is against the full system, and the
-multiple is of \emph{that dataset's} measured noise floor ($0.00065$ Douban-Book, $0.00219$ ML-1M).
+multiple is of that dataset's measured noise floor ($0.00065$ and $0.00070$; \S\ref{sec:noise}).
 Only the popularity residual is inert on both; the router and the hard negatives are large and
 opposite in sign across the two, while removing all three together is harmless on one and beneficial
 on the other. The ML-1M arm is leave-one-out from the geometry-\emph{on} configuration.}
