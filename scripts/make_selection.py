@@ -13,8 +13,9 @@ def vt(tag, ds):
     return (sum(vs) / len(vs), sum(ts) / len(ts)) if vs else (None, None)
 
 MODULE = [('Douban-Book', 'douban-book'), ('ML-1M', 'ml-1M')]
-GRID = [(r'$(0,1)$', 'XSimGCLg_w10'), (r'$(0,2)$', 'XSimGCLg_w20'), (r'$(0.5,1)$', 'AdaG_b05'),
-        (r'$(1,1)$', 'AdaG_b10'), (r'$(0.5,2)$', 'AdaG_b05w2'), (r'$(1,2)$', 'AdaG_b10w2')]
+GRID = [(r'none', 'XSimGCLg_w00'), (r'$(0,1)$', 'XSimGCLg_w10'), (r'$(0,2)$', 'XSimGCLg_w20'),
+        (r'$(0.5,1)$', 'AdaG_b05'), (r'$(1,1)$', 'AdaG_b10'), (r'$(0.5,2)$', 'AdaG_b05w2'),
+        (r'$(1,2)$', 'AdaG_b10w2')]
 
 def bold(x, on):
     return r'\textbf{%.4f}' % x if on else '%.4f' % x
@@ -23,13 +24,14 @@ print(r"""\begin{table}[t]
 \centering
 \caption{Every per-dataset choice, the validation score that decided it and the test score that
 followed; the chosen option is in \textbf{bold}. Top: whether the geometric module is enabled. Bottom:
-the exponent $\beta$ and dose $\mu_g$ of the encoder-only regularizer, with all six candidates listed
-($\beta{=}0$ is uniform weighting). In all four decisions the validation ordering agrees with the test
-ordering, so none would have changed had we selected on test.}
+the exponent $\beta$ and dose $\mu_g$ of the encoder-only regularizer, with every candidate listed --
+including \emph{none}, i.e.\ not regularizing at all ($\beta{=}0$ is uniform weighting). In all four
+decisions the validation ordering agrees with the test ordering, so none would have changed had we
+selected on test.}
 \label{tab:selection}
 \setlength{\tabcolsep}{3pt}
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{lcccccc}
+\begin{tabular}{lccccccc}
 \toprule
 \multicolumn{3}{l}{\emph{Geometric module}} & \multicolumn{2}{c}{enabled} & \multicolumn{2}{c}{disabled} \\
 \cmidrule(lr){4-5}\cmidrule(lr){6-7}

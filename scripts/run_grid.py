@@ -166,6 +166,7 @@ ALL_ORDER = ['MF','LightGCN','SGL','NCL','SSL4Rec','DirectAU','BUIR','SEPT','Sel
 
 def build_yaml(tag, dataset):
     base = tag[:-4] if tag.endswith('_VR0') else (tag[:-8] if tag.endswith('_SELTEST') else tag)
+    base = base[6:] if base.startswith('CURVE_') else base
     name, params, max_epoch, needs_social, preepoch = MODELS[base]
     train, test, has_social = DATASETS[dataset]
     lines = [f'training.set: {train}', f'test.set: {test}']
@@ -181,6 +182,7 @@ def build_yaml(tag, dataset):
               'learning.rate: 0.001', 'reg.lambda: 0.0001',
               f'valid.ratio: {vr}', 'split.seed: 2024', 'eval.every: 5']
     if seltest: lines.append('select.on: test')
+    if tag.startswith('CURVE_'): lines.append('log.curve: true')
     if preepoch > 0:
         lines.append(f'num.max.preepoch: {preepoch}')
     if isinstance(params, str):

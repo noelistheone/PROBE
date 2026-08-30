@@ -35,8 +35,9 @@ print(r"""\begin{table}[t]
 ``Selection on test'' keeps the validation split carved out and changes only which set picks the
 reported epoch; ``no validation split'' is the common implementation, in which the held-out
 interactions return to training \emph{and} selection sees the test set. Isolated, the selection
-shortcut stays below each dataset's noise floor on both; almost all of the inflation comes from the
-data the split would have removed, and the frozen/joint discrepancy is larger than either. Each arm differs from its
+shortcut stays below each dataset's noise floor in five of the six arms---the exception is our own
+model on ML-1M, at $2.1\times$ the floor. Almost all of the inflation comes from the data the split
+would have removed, and the frozen/joint discrepancy is larger than either. Each arm differs from its
 controlled counterpart in exactly one setting.}
 \label{tab:protocol}
 \setlength{\tabcolsep}{2.5pt}

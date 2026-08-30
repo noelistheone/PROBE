@@ -1,0 +1,189 @@
+{
+  "geometry": {
+    "user_eff_rank": 61.53279495239258,
+    "user_sv_top20": [
+      18.468761444091797,
+      17.806236267089844,
+      15.913826942443848,
+      15.473664283752441,
+      14.560775756835938,
+      13.776390075683594,
+      13.403583526611328,
+      13.106399536132812,
+      12.308152198791504,
+      11.946850776672363,
+      11.511924743652344,
+      11.158893585205078,
+      10.975722312927246,
+      10.571978569030762,
+      10.2828950881958,
+      10.181123733520508,
+      9.965275764465332,
+      9.795910835266113,
+      9.594964027404785,
+      9.509013175964355
+    ],
+    "user_cond": 3.4109582901000977,
+    "item_eff_rank": 63.61693572998047,
+    "item_sv_top20": [
+      10.738051414489746,
+      9.604615211486816,
+      9.419769287109375,
+      9.248173713684082,
+      8.605560302734375,
+      8.506214141845703,
+      8.180658340454102,
+      8.06881332397461,
+      7.906305313110352,
+      7.790170192718506,
+      7.735030174255371,
+      7.707822799682617,
+      7.667764186859131,
+      7.589661121368408,
+      7.5595479011535645,
+      7.552312850952148,
+      7.519719123840332,
+      7.491824626922607,
+      7.451471328735352,
+      7.436772346496582
+    ],
+    "item_cond": 1.7217881679534912
+  },
+  "curve": [
+    {
+      "epoch": 1,
+      "valid_NDCG": 0.09052,
+      "test_NDCG": 0.1601
+    },
+    {
+      "epoch": 6,
+      "valid_NDCG": 0.14656,
+      "test_NDCG": 0.25687
+    },
+    {
+      "epoch": 11,
+      "valid_NDCG": 0.15027,
+      "test_NDCG": 0.25442
+    },
+    {
+      "epoch": 16,
+      "valid_NDCG": 0.15268,
+      "test_NDCG": 0.26036
+    },
+    {
+      "epoch": 21,
+      "valid_NDCG": 0.15714,
+      "test_NDCG": 0.26564
+    },
+    {
+      "epoch": 26,
+      "valid_NDCG": 0.15935,
+      "test_NDCG": 0.2696
+    },
+    {
+      "epoch": 31,
+      "valid_NDCG": 0.16116,
+      "test_NDCG": 0.27383
+    },
+    {
+      "epoch": 36,
+      "valid_NDCG": 0.16321,
+      "test_NDCG": 0.27761
+    },
+    {
+      "epoch": 41,
+      "valid_NDCG": 0.1645,
+      "test_NDCG": 0.27998
+    },
+    {
+      "epoch": 46,
+      "valid_NDCG": 0.16614,
+      "test_NDCG": 0.28235
+    },
+    {
+      "epoch": 51,
+      "valid_NDCG": 0.16754,
+      "test_NDCG": 0.28395
+    },
+    {
+      "epoch": 56,
+      "valid_NDCG": 0.16797,
+      "test_NDCG": 0.2856
+    },
+    {
+      "epoch": 61,
+      "valid_NDCG": 0.16871,
+      "test_NDCG": 0.28768
+    },
+    {
+      "epoch": 66,
+      "valid_NDCG": 0.16935,
+      "test_NDCG": 0.28876
+    },
+    {
+      "epoch": 71,
+      "valid_NDCG": 0.16955,
+      "test_NDCG": 0.28974
+    },
+    {
+      "epoch": 76,
+      "valid_NDCG": 0.17008,
+      "test_NDCG": 0.29075
+    },
+    {
+      "epoch": 81,
+      "valid_NDCG": 0.17078,
+      "test_NDCG": 0.29207
+    },
+    {
+      "epoch": 86,
+      "valid_NDCG": 0.17114,
+      "test_NDCG": 0.29236
+    },
+    {
+      "epoch": 91,
+      "valid_NDCG": 0.17201,
+      "test_NDCG": 0.29371
+    },
+    {
+      "epoch": 96,
+      "valid_NDCG": 0.17219,
+      "test_NDCG": 0.29361
+    }
+  ],
+  "model": "PT4Rec_Enhanced",
+  "dataset": "ml-1M",
+  "seed": 2025,
+  "best_val_epoch": 96,
+  "val_metrics": {
+    "Hit Ratio": 0.1786,
+    "Precision": 0.06818,
+    "Recall": 0.26088,
+    "NDCG": 0.17219
+  },
+  "config": "-n_layer 2 -temp 0.2 -prompt_size 64 -user_prompt_num 3 -pretrain_model XSimGCL -simgcl_eps 0.1 -simgcl_n_layers 3 -xsimgcl_eps 0.2 -xsimgcl_layer_cl 1 -dual_attention true -use_popularity true -pop_gamma 0.1 -pop_adaptive true -fusion_type multiply -warmup_epochs 10 -stage2_cl_weight 0.0 -prompt_dropout 0.1 -align_weight 0.02 -uniform_weight 0.01 -n_negs 4 -neg_mixup true -freeze_encoder false -geom_w 2.0 -geom_beta 0.5",
+  "metrics": {
+    "HitRatio@10": 0.11976,
+    "Precision@10": 0.23003,
+    "Recall@10": 0.18494,
+    "NDCG@10": 0.28937,
+    "TailRecall@10": 0.02023,
+    "HeadRecall@10": 0.15791,
+    "ItemCoverage@10": 0.34924,
+    "ARP@10": 0.3392,
+    "Novelty@10": 9.55115,
+    "Gini@10": 0.90071,
+    "TailShareRecs@10": 0.06815,
+    "HitRatio@20": 0.1896,
+    "Precision@20": 0.18208,
+    "Recall@20": 0.27634,
+    "NDCG@20": 0.29361,
+    "TailRecall@20": 0.04841,
+    "HeadRecall@20": 0.2437,
+    "ItemCoverage@20": 0.44381,
+    "ARP@20": 0.29993,
+    "Novelty@20": 9.76955,
+    "Gini@20": 0.87051,
+    "TailShareRecs@20": 0.10477
+  }
+}

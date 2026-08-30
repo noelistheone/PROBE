@@ -1,0 +1,189 @@
+{
+  "geometry": {
+    "user_eff_rank": 50.3212776184082,
+    "user_sv_top20": [
+      22.98511505126953,
+      19.581993103027344,
+      18.01630401611328,
+      16.47510528564453,
+      15.911507606506348,
+      14.486748695373535,
+      14.145844459533691,
+      13.207855224609375,
+      12.694422721862793,
+      12.121403694152832,
+      10.899370193481445,
+      10.061657905578613,
+      8.848808288574219,
+      8.22213077545166,
+      7.426761150360107,
+      7.192862033843994,
+      6.559610843658447,
+      6.336068153381348,
+      6.094788074493408,
+      5.791694164276123
+    ],
+    "user_cond": 9.486942291259766,
+    "item_eff_rank": 52.144466400146484,
+    "item_sv_top20": [
+      20.822580337524414,
+      17.38254165649414,
+      16.026351928710938,
+      15.21014404296875,
+      12.998940467834473,
+      12.033303260803223,
+      11.212071418762207,
+      10.380285263061523,
+      9.781131744384766,
+      9.419415473937988,
+      8.446114540100098,
+      8.25766658782959,
+      7.831107139587402,
+      7.049752235412598,
+      6.597832202911377,
+      6.188714504241943,
+      5.825541973114014,
+      5.637773036956787,
+      5.469059944152832,
+      5.398818492889404
+    ],
+    "item_cond": 9.254050254821777
+  },
+  "curve": [
+    {
+      "epoch": 1,
+      "valid_NDCG": 0.08954,
+      "test_NDCG": 0.15834
+    },
+    {
+      "epoch": 6,
+      "valid_NDCG": 0.10557,
+      "test_NDCG": 0.18608
+    },
+    {
+      "epoch": 11,
+      "valid_NDCG": 0.13363,
+      "test_NDCG": 0.23486
+    },
+    {
+      "epoch": 16,
+      "valid_NDCG": 0.14523,
+      "test_NDCG": 0.25443
+    },
+    {
+      "epoch": 21,
+      "valid_NDCG": 0.15156,
+      "test_NDCG": 0.26752
+    },
+    {
+      "epoch": 26,
+      "valid_NDCG": 0.15548,
+      "test_NDCG": 0.27519
+    },
+    {
+      "epoch": 31,
+      "valid_NDCG": 0.15911,
+      "test_NDCG": 0.28052
+    },
+    {
+      "epoch": 36,
+      "valid_NDCG": 0.16136,
+      "test_NDCG": 0.2843
+    },
+    {
+      "epoch": 41,
+      "valid_NDCG": 0.16387,
+      "test_NDCG": 0.28776
+    },
+    {
+      "epoch": 46,
+      "valid_NDCG": 0.16553,
+      "test_NDCG": 0.29102
+    },
+    {
+      "epoch": 51,
+      "valid_NDCG": 0.16671,
+      "test_NDCG": 0.29344
+    },
+    {
+      "epoch": 56,
+      "valid_NDCG": 0.168,
+      "test_NDCG": 0.29452
+    },
+    {
+      "epoch": 61,
+      "valid_NDCG": 0.16873,
+      "test_NDCG": 0.29643
+    },
+    {
+      "epoch": 66,
+      "valid_NDCG": 0.16968,
+      "test_NDCG": 0.29724
+    },
+    {
+      "epoch": 71,
+      "valid_NDCG": 0.17028,
+      "test_NDCG": 0.29813
+    },
+    {
+      "epoch": 76,
+      "valid_NDCG": 0.17152,
+      "test_NDCG": 0.29936
+    },
+    {
+      "epoch": 81,
+      "valid_NDCG": 0.17177,
+      "test_NDCG": 0.29977
+    },
+    {
+      "epoch": 86,
+      "valid_NDCG": 0.17151,
+      "test_NDCG": 0.29945
+    },
+    {
+      "epoch": 91,
+      "valid_NDCG": 0.17241,
+      "test_NDCG": 0.30058
+    },
+    {
+      "epoch": 96,
+      "valid_NDCG": 0.17309,
+      "test_NDCG": 0.30138
+    }
+  ],
+  "model": "PT4Rec_Enhanced",
+  "dataset": "ml-1M",
+  "seed": 2025,
+  "best_val_epoch": 96,
+  "val_metrics": {
+    "Hit Ratio": 0.18912,
+    "Precision": 0.0722,
+    "Recall": 0.25723,
+    "NDCG": 0.17309
+  },
+  "config": "-n_layer 2 -temp 0.2 -prompt_size 64 -user_prompt_num 3 -pretrain_model XSimGCL -simgcl_eps 0.1 -simgcl_n_layers 3 -xsimgcl_eps 0.2 -xsimgcl_layer_cl 1 -dual_attention false -use_popularity false -fusion_type multiply -warmup_epochs 10 -stage2_cl_weight 0.0 -prompt_dropout 0.1 -align_weight 0.0 -uniform_weight 0.0 -n_negs 1 -neg_mixup false -freeze_encoder false",
+  "metrics": {
+    "HitRatio@10": 0.1258,
+    "Precision@10": 0.24163,
+    "Recall@10": 0.17856,
+    "NDCG@10": 0.29759,
+    "TailRecall@10": 0.01305,
+    "HeadRecall@10": 0.16901,
+    "ItemCoverage@10": 0.31762,
+    "ARP@10": 0.40729,
+    "Novelty@10": 9.26497,
+    "Gini@10": 0.91809,
+    "TailShareRecs@10": 0.04166,
+    "HitRatio@20": 0.20341,
+    "Precision@20": 0.19535,
+    "Recall@20": 0.27268,
+    "NDCG@20": 0.30138,
+    "TailRecall@20": 0.03023,
+    "HeadRecall@20": 0.26978,
+    "ItemCoverage@20": 0.4004,
+    "ARP@20": 0.37624,
+    "Novelty@20": 9.40316,
+    "Gini@20": 0.8985,
+    "TailShareRecs@20": 0.05899
+  }
+}

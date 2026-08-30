@@ -179,6 +179,7 @@ class GraphRecommender(Recommender):
 
         record = {
             'geometry': geo,
+            'curve': getattr(self, 'curve', None),
             'model': self.model_name,
             'dataset': dataset,
             'seed': int(os.environ.get('RUN_SEED', -1)),
@@ -208,6 +209,21 @@ class GraphRecommender(Recommender):
         # identical) but performs model selection on the test set, isolating the selection axis.
         sel = self.config['select.on'] if self.config.contain('select.on') else 'valid'
         use_valid = len(self.data.valid_set) > 0 and sel != 'test'
+
+        # Diagnostic instrument (off by default): record BOTH the validation and the test score at
+        # every evaluation epoch of a single run, so the selection effect can be measured exactly --
+        # test-at-argmax-test minus test-at-argmax-val -- without the run-to-run noise that separate
+        # val-selected and test-selected runs would carry. This is a measurement, not model selection:
+        # nothing here influences which checkpoint the run keeps.
+        if self.config.contain('log.curve') and str(self.config['log.curve']).lower() == 'true':
+            if not hasattr(self, 'curve'):
+                self.curve = []
+            v_list = ranking_evaluation(self.data.valid_set, self.valid(), [self.max_N])
+            t_list = ranking_evaluation(self.data.test_set, self.test(), [self.max_N])
+            gv = lambda mm: {k: float(v) for m in mm[1:] for k, v in [m.strip().split(':')]}
+            self.curve.append({'epoch': epoch + 1,
+                               'valid_NDCG': gv(v_list).get('NDCG'),
+                               'test_NDCG': gv(t_list).get('NDCG')})
         print('Evaluating the model (%s)...' % ('validation' if use_valid else 'test'))
         eval_set = self.data.valid_set if use_valid else self.data.test_set
         rec_list = self.valid() if use_valid else self.test()

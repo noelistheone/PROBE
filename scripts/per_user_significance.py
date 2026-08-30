@@ -107,24 +107,25 @@ def wilcoxon(d):
     return z, p, n
 
 
-PAIRS = [('douban-book', 'OURSgeom_w2', 'PT4Rec_Enhanced', 'SGL', 'SGL'),
-         ('ml-1M',       'OURS_XSim_nofz', 'PT4Rec_Enhanced', 'XSimGCLg_w00', 'XSimGCLg'),
-         ('yelp2018',    'OURSgeom_w2', 'PT4Rec_Enhanced', 'XSimGCLg_w00', 'XSimGCLg')]
-
-print('Per-user paired Wilcoxon signed-rank on NDCG@20 (seed 2024 lists unless noted)\n')
-for ds, ours_tag, ours_model, base_tag, base_model in PAIRS:
-    for seed in SEEDS:
-        a, fa = find_dump(ours_tag, ds, seed, ours_model)
-        b, fb = find_dump(base_tag, ds, seed, base_model)
-        if not a or not b:
-            print(f'{ds:12s} seed{seed}: mapping unverified, skipped')
-            continue
-        users = sorted(set(a) & set(b))
-        d = [a[u] - b[u] for u in users]
-        z, p, n = wilcoxon(d)
-        mean_d = sum(d) / len(d)
-        wins = sum(1 for x in d if x > 0)
-        print(f'{ds:12s} seed{seed}: ours {ours_tag} vs {base_tag} | users={len(users)} '
-              f'mean dNDCG@20={mean_d:+.5f} | users better={wins} ({100*wins/len(users):.1f}%) '
-              f'| nonzero={n} z={z:.2f} p={p:.3g}')
-        break                                            # one verified seed per dataset is enough
+if __name__ == '__main__':
+    PAIRS = [('douban-book', 'OURSgeom_w2', 'PT4Rec_Enhanced', 'SGL', 'SGL'),
+             ('ml-1M',       'OURS_XSim_nofz', 'PT4Rec_Enhanced', 'XSimGCLg_w00', 'XSimGCLg'),
+             ('yelp2018',    'OURSgeom_w2', 'PT4Rec_Enhanced', 'XSimGCLg_w00', 'XSimGCLg')]
+    
+    print('Per-user paired Wilcoxon signed-rank on NDCG@20 (seed 2024 lists unless noted)\n')
+    for ds, ours_tag, ours_model, base_tag, base_model in PAIRS:
+        for seed in SEEDS:
+            a, fa = find_dump(ours_tag, ds, seed, ours_model)
+            b, fb = find_dump(base_tag, ds, seed, base_model)
+            if not a or not b:
+                print(f'{ds:12s} seed{seed}: mapping unverified, skipped')
+                continue
+            users = sorted(set(a) & set(b))
+            d = [a[u] - b[u] for u in users]
+            z, p, n = wilcoxon(d)
+            mean_d = sum(d) / len(d)
+            wins = sum(1 for x in d if x > 0)
+            print(f'{ds:12s} seed{seed}: ours {ours_tag} vs {base_tag} | users={len(users)} '
+                  f'mean dNDCG@20={mean_d:+.5f} | users better={wins} ({100*wins/len(users):.1f}%) '
+                  f'| nonzero={n} z={z:.2f} p={p:.3g}')
+            break                                            # one verified seed per dataset is enough

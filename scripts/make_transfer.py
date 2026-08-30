@@ -26,22 +26,26 @@ def cell(t, base):
 print(r"""\begin{table}[t]
 \centering
 \caption{The geometric regularizer applied \emph{directly to the pre-trained encoder}, with the
-prompt-tuning stage removed; $\Delta$ is against that encoder and all three regularized columns are
-dose-matched at $\mu_g{=}1$, so the comparison isolates the exponent. The last column is what
-validation selects over the full six-candidate $(\beta,\mu_g)$ grid of Table~\ref{tab:selection},
-including the option of not regularizing at all. Three seeds throughout.}
+prompt-tuning stage removed; $\Delta$ is against that encoder. The two adaptive columns are at
+$\mu_g{=}1$, dose-matched to the first uniform column, so that comparison isolates the exponent; the
+second uniform column gives the dose--response, which is monotonically beneficial on the sparse
+benchmark and monotonically destructive on the dense one, as Proposition~\ref{prop:degree} predicts.
+The last column is what validation selects over the full grid of Table~\ref{tab:selection}, including
+the option of not regularizing at all. Three seeds throughout.}
 \label{tab:transfer}
 \setlength{\tabcolsep}{2.5pt}
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{lrccccl}
+\begin{tabular}{lrcccccl}
 \toprule
-Dataset & Density & Encoder & +uniform & +DA $\beta{=}0.5$ & +DA $\beta{=}1$ & validation selects \\
+Dataset & Density & Encoder & \multicolumn{2}{c}{+uniform} & \multicolumn{2}{c}{+degree-adaptive}
+& validation \\
+ & & & $\mu_g{=}1$ & $\mu_g{=}2$ & $\beta{=}0.5$ & $\beta{=}1$ & selects \\
 \midrule""")
 for ds, name, dens in DS:
     ev, et = vt('XSimGCLg_w00', ds)
     if et is None:
         continue
-    cells = [cell(vt(t, ds)[1], et) for t in ['XSimGCLg_w10', 'AdaG_b05', 'AdaG_b10']]
+    cells = [cell(vt(t, ds)[1], et) for t in ['XSimGCLg_w10', 'XSimGCLg_w20', 'AdaG_b05', 'AdaG_b10']]
     cands = [(lab, *vt(t, ds)) for lab, t in GRID]
     cands = [c for c in cands if c[1] is not None]
     best = max(cands, key=lambda c: c[1])
