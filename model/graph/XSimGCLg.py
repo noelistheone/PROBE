@@ -36,6 +36,13 @@ class XSimGCLg(GraphRecommender):
             import numpy as np
             ud = np.asarray(self.data.interaction_mat.sum(axis=1)).ravel()
             idg = np.asarray(self.data.interaction_mat.sum(axis=0)).ravel()
+            # Control: keep the weight DISTRIBUTION identical but destroy its correspondence to
+            # degree, by permuting the degree vector. If the gate works because it tracks how well
+            # each node is determined by data, this control should not work; if it works merely
+            # because the weights are heterogeneous, it should.
+            if 'geom_perm' in c and str(c['geom_perm']).lower() == 'true':
+                rng = np.random.RandomState(int(c['geom_perm_seed']) if 'geom_perm_seed' in c else 12345)
+                ud, idg = rng.permutation(ud), rng.permutation(idg)
             if self.geom_gate == 'sigmoid':
                 ldu, ldi = np.log1p(ud), np.log1p(idg)
                 tu = np.quantile(ldu, self.geom_tau); ti = np.quantile(ldi, self.geom_tau)

@@ -135,6 +135,9 @@ MODELS = {
     'AdaG_b10w2': ('XSimGCLg', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 2.0, 'geom_beta': 1.0}, 100, False, 0),
     # frozen encoder WITH the geometric term, so the frozen/joint ratio changes one thing only
     'OURSgeom_w2_fz': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
+    # control: same weight distribution, degree correspondence destroyed
+    'AdaG_b05_perm': ('XSimGCLg', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 1.0, 'geom_beta': 0.5, 'geom_perm': 'true'}, 100, False, 0),
+    'AdaG_b10_perm': ('XSimGCLg', {'n_layer': 2, 'l_star': 1, 'lambda': 0.2, 'eps': 0.2, 'tau': 0.15, 'geom_w': 1.0, 'geom_beta': 1.0, 'geom_perm': 'true'}, 100, False, 0),
     'AB_popg0': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false').replace('-pop_gamma 0.1','-pop_gamma 0.0') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
     'AB_nopop':  ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false') .replace('-use_popularity true','-use_popularity false') + ' -geom_w 2.0 -geom_beta 0.5', 100, False, 20),
     'AB_nogeom': ('PT4Rec_Enhanced', _OURS.format(bk='XSimGCL').replace('-freeze_encoder true','-freeze_encoder false'), 100, False, 20),
