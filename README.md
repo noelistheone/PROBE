@@ -16,9 +16,10 @@ model/graph/               the models compared in the paper
 scripts/                   experiment driver and the table / figure generators
 conf/grid/                 one config per (tag, dataset) actually run
 results/wm/                per-seed JSON records from the current harness
-results/wm_noisefloor/     18 repeats of one configuration (the measured noise floor)
-results/prev_sampler/      records produced under the earlier, slower negative sampler
-                           (the cells marked with a dagger in the transfer table)
+results/wm_noisefloor/     18 repeats of one configuration (the Douban-Book noise floor)
+results/per_user/          per-user NDCG@20 behind the per-user tests, quintiles and Figure 2
+results/prev_sampler/      records from an earlier, slower negative sampler; superseded, and
+                           read by no script
 ```
 
 The method itself is in `model/graph/PT4Rec_Enhanced.py`: `_init_geom_weights` computes the
@@ -84,15 +85,26 @@ decomposition in the paper measurable:
 ```bash
 python scripts/report_paper_numbers.py     # every number in the paper, with its source tag
 python scripts/significance.py             # paired tests over seeds, ours vs the best baseline
-python scripts/per_user_significance.py    # Wilcoxon signed-rank over users, from the ranking dumps
-python scripts/make_table.py  > tab_main.tex
-python scripts/make_transfer.py > tab_transfer.tex
-python scripts/make_protocol.py > tab_protocol.tex
-python scripts/make_ablation.py > tab_ablation.tex
-python scripts/make_figs.py                # writes figures/
+python scripts/make_table.py     > tab_main.tex        # Table 1
+python scripts/make_protocol.py  > tab_protocol.tex    # Table 2
+python scripts/make_ablation.py  > tab_ablation.tex    # Table 3
+python scripts/make_exposure.py  > tab_exposure.tex    # Table 4
+python scripts/make_transfer.py  > tab_transfer.tex    # Table 5
+python scripts/make_selection.py > tab_selection.tex   # Table 6
+python scripts/per_user_significance.py    # Wilcoxon signed-rank over users
+python scripts/degree_stratified.py        # NDCG@20 by user-degree quintile
+python scripts/make_mechanism_fig.py       # Figure 2, written to SAC2027/fig/
 ```
 
-All tables use the three canonical seeds 2024, 2025 and 2026.
+The table generators reproduce the paper's table files byte for byte. All tables use the three
+canonical seeds 2024, 2025 and 2026; means are rounded half-up on exact decimals, so the output does
+not depend on the Python version.
+
+The per-user analyses read `results/per_user/<tag>__<dataset>__seed2024.tsv` (user id, the user's
+number of interactions in `train.txt`, NDCG@20 on the test set). These were exported by
+`scripts/export_per_user.py` from each run's top-20 ranking dump, which needs the dataset and the
+dumps and so cannot run here. On load, every file is checked against its released JSON record: its
+mean must reproduce the record's NDCG@20 to five decimals, or the script stops.
 
 ### Which tag is which row
 
@@ -104,10 +116,12 @@ All tables use the three canonical seeds 2024, 2025 and 2026.
 | Ours | `OURSgeom_w2` |
 | leave-one-out ablation | `AB_full`, `AB_nogeom`, `AB_nodual`, `AB_nopop`, `AB_nohn`, `AB_geomonly` |
 | selection on test / no validation split | tags suffixed `_SELTEST` / `_VR0` |
-| encoder genuinely frozen | `PTbase_XSim`, `OURS_XSim` (in `results/prev_sampler/`) |
-| regularizer on the encoder alone | `XSimGCLg_w00` (off), `XSimGCLg_w20` (uniform), `AdaG_b05`, `AdaG_b10` |
-| dose-response | `XSimGCLg_w00`, `XSimGCLg_w10`, `XSimGCLg_w20` |
-| noise floor | `results/wm_noisefloor/` (Douban); on ML-1M, `AB_full` and `OURSgeom_w2` are byte-identical configurations, giving six runs of one config |
+| encoder genuinely frozen | `PTbase_XSim`, `OURSgeom_w2_fz` |
+| regularizer trained into the encoder, no prompt stage | `XSimGCLg_w00` (none), `XSimGCLg_w10` / `XSimGCLg_w20` (uniform, mu_g = 1 / 2), `AdaG_b05`, `AdaG_b10` (mu_g = 1), `AdaG_b05w2`, `AdaG_b10w2` (mu_g = 2) |
+| permuted-degree control | `AdaG_b05_perm`, `AdaG_b10_perm` |
+| within-run checkpoint tracking | tags prefixed `CURVE_` (same config as the base tag, with the validation and test curves logged) |
+| noise floor | Douban-Book: `results/wm_noisefloor/` (18 repeats at one seed); ML-1M: `NFml1m_r*` (10 repeats at one seed) |
+| sensitivity of the fixed-weight terms | `SW_*` (Douban-Book, seed 2024) |
 | capacity-matched popularity control | `AB_popg0` |
 | chronological split | any tag on dataset `ml-1M-temporal` |
 

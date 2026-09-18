@@ -7,12 +7,27 @@ each released record (`results/wm/<tag>__<ds>__seed<s>.json`) to a dump by write
 then VERIFY the mapping: the per-user NDCG@20 recomputed from the dump must reproduce the NDCG@20
 stored in the record to 5 decimals (the harness's own rounding).  Unverified mappings are discarded
 rather than used, so a wrong pairing cannot silently enter a significance test.
+
+The dumps and the dataset are not part of the release, so export_per_user.py writes what these analyses
+consume to `results/per_user/<tag>__<ds>__seed<s>.tsv` (user, training-file degree, per-user NDCG@20).
+`user_scores` reads that file when it exists and checks it against the released record the same way.
 """
-import glob, json, math, os, re, sys
+import collections, glob, json, math, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RES, WM = os.path.join(ROOT, 'results'), os.path.join(ROOT, 'results', 'wm')
+PU = os.path.join(RES, 'per_user')
 SEEDS = ['2024', '2025', '2026']
+
+
+def train_degrees(ds):
+    """Interactions per user in the training file (before the validation hold-out)."""
+    d = collections.Counter()
+    for line in open(os.path.join(ROOT, 'dataset', ds, 'train.txt')):
+        p = line.split()
+        if len(p) >= 2:
+            d[p[0]] += 1
+    return d
 
 
 def train_vocab(ds, ratio=0.1, split_seed=2024):
@@ -83,6 +98,39 @@ def find_dump(tag, ds, seed, model_hint):
     return None, None
 
 
+def per_user_path(tag, ds, seed):
+    return os.path.join(PU, f'{tag}__{ds}__seed{seed}.tsv')
+
+
+def load_per_user(tag, ds, seed):
+    """Released per-user NDCG@20 and degrees for one record; refuses a file that does not match it."""
+    path, rec_path = per_user_path(tag, ds, seed), os.path.join(WM, f'{tag}__{ds}__seed{seed}.json')
+    if not (os.path.exists(path) and os.path.exists(rec_path)):
+        return None, None
+    scores, deg = {}, {}
+    with open(path) as f:
+        f.readline()                                    # header
+        for line in f:
+            u, d, s = line.rstrip('\n').split('\t')
+            scores[u], deg[u] = float(s), int(d)
+    avg = round(math.fsum(scores.values()) / len(scores), 5)
+    ref = json.load(open(rec_path))['metrics']['NDCG@20']
+    if abs(avg - ref) >= 1e-5:
+        sys.exit(f'{path}: per-user mean {avg} does not reproduce the record NDCG@20 {ref}')
+    return scores, deg
+
+
+def user_scores(tag, ds, seed, model_hint):
+    """(per-user NDCG@20, user degrees, source) from the released file, else from the raw dump."""
+    s, deg = load_per_user(tag, ds, seed)
+    if s is not None:
+        return s, deg, per_user_path(tag, ds, seed)
+    if not os.path.isdir(os.path.join(ROOT, 'dataset', ds)):
+        return None, None, None
+    s, f = find_dump(tag, ds, seed, model_hint)
+    return (s, train_degrees(ds), f) if s else (None, None, None)
+
+
 def wilcoxon(d):
     """Two-sided Wilcoxon signed-rank with a normal approximation and tie correction."""
     d = [x for x in d if x != 0]
@@ -115,8 +163,8 @@ if __name__ == '__main__':
     print('Per-user paired Wilcoxon signed-rank on NDCG@20 (seed 2024 lists unless noted)\n')
     for ds, ours_tag, ours_model, base_tag, base_model in PAIRS:
         for seed in SEEDS:
-            a, fa = find_dump(ours_tag, ds, seed, ours_model)
-            b, fb = find_dump(base_tag, ds, seed, base_model)
+            a, _, fa = user_scores(ours_tag, ds, seed, ours_model)
+            b, _, fb = user_scores(base_tag, ds, seed, base_model)
             if not a or not b:
                 print(f'{ds:12s} seed{seed}: mapping unverified, skipped')
                 continue

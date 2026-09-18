@@ -4,7 +4,7 @@ import collections, json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from per_user_significance import find_dump
+from per_user_significance import user_scores
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'SAC2027', 'fig')
@@ -15,25 +15,18 @@ plt.rcParams.update({'font.size': 6.5, 'axes.labelsize': 7, 'xtick.labelsize': 7
                      'font.family': 'serif', 'axes.grid': True, 'grid.alpha': .25,
                      'grid.linewidth': .4, 'savefig.bbox': 'tight', 'savefig.pad_inches': 0.01})
 
-def degrees(ds):
-    d = collections.Counter()
-    for line in open(os.path.join(ROOT, 'dataset', ds, 'train.txt')):
-        p = line.split()
-        if len(p) >= 2:
-            d[p[0]] += 1
-    return d
-
 ARMS = [('uniform', 'XSimGCLg_w10', '#B2182B', 'o'),
         (r'adaptive $\beta$=0.5', 'AdaG_b05', '#E08214', 's'),
         (r'adaptive $\beta$=1', 'AdaG_b10', '#2166AC', '^')]
 fig, axes = plt.subplots(1, 2, figsize=(3.4, 1.12), sharey=True)
 for ax, ds, title in zip(axes, ['ml-1M', 'douban-book'], ['ML-1M', 'Douban-Book']):
     sc = {}
-    enc, _ = find_dump('XSimGCLg_w00', ds, '2024', 'XSimGCLg')
+    enc, deg, _ = user_scores('XSimGCLg_w00', ds, '2024', 'XSimGCLg')
     for name, tag, _, _ in ARMS:
-        s, _ = find_dump(tag, ds, '2024', 'XSimGCLg')
-        if s: sc[name] = s
-    deg = degrees(ds)
+        s, d, _ = user_scores(tag, ds, '2024', 'XSimGCLg')
+        if s:
+            sc[name] = s
+            deg.update(d)
     users = sorted(set(enc).intersection(*[set(v) for v in sc.values()]), key=lambda u: (deg.get(u, 0), int(u)))
     q = len(users) // 5
     groups = [users[i*q:(i+1)*q] if i < 4 else users[4*q:] for i in range(5)]

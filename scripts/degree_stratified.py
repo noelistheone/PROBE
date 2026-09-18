@@ -6,33 +6,24 @@ would equal 1 everywhere and degree adaptation would be a no-op. So the mechanis
 heterogeneity. This script tests that directly: it splits users into degree quintiles and measures,
 per quintile, what a uniform dose costs and what adaptation gives back.
 """
-import collections, json, os, sys
+import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from per_user_significance import find_dump, test_set   # verified dump->record mapping
-
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-def degrees(ds):
-    d = collections.Counter()
-    for line in open(os.path.join(ROOT, 'dataset', ds, 'train.txt')):
-        p = line.split()
-        if len(p) >= 2:
-            d[p[0]] += 1
-    return d
+from per_user_significance import user_scores   # released per-user file, else verified dump->record mapping
 
 def quintile_report(ds, seed='2024'):
     arms = [('encoder', 'XSimGCLg_w00', 'XSimGCLg'), ('uniform mu=1', 'XSimGCLg_w10', 'XSimGCLg'),
             ('DA beta=0.5', 'AdaG_b05', 'XSimGCLg'), ('DA beta=1', 'AdaG_b10', 'XSimGCLg')]
     scores = {}
     used = {}
+    deg = {}
     for name, tag, model in arms:
-        s, f = find_dump(tag, ds, seed, model)
+        s, d, f = user_scores(tag, ds, seed, model)
         if s:
             scores[name] = s
             used[name] = os.path.basename(f) if f else '?'
+            deg.update(d)
     if 'encoder' not in scores:
-        print(f'{ds}: no verified dump for the encoder arm'); return
-    deg = degrees(ds)
+        print(f'{ds}: no verified per-user scores for the encoder arm'); return
     users = sorted(set.intersection(*[set(v) for v in scores.values()]), key=lambda u: (deg.get(u, 0), int(u)))
     q = len(users) // 5
     print(f'\n{ds} (seed {seed}, {len(users)} users, quintiles by training degree)')
