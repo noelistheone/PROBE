@@ -28,11 +28,7 @@ base = {ds: sum(series('AB_full', ds)) / len(series('AB_full', ds)) for ds in FL
 
 print(r"""\begin{table}[t]
 \centering
-\caption{Leave-one-out ablation (three seeds, NDCG@20). $\Delta$ is against the full system, and the
-multiple is of that dataset's measured noise floor ($0.00065$ and $0.00070$; \S\ref{sec:noise}).
-Only the popularity residual is inert on both; the router and the hard negatives are large and
-opposite in sign across the two, while removing all three together is harmless on one and beneficial
-on the other. The ML-1M arm is leave-one-out from the geometry-\emph{on} configuration.}
+\caption{Leave-one-out ablation (three seeds, NDCG@20). $\Delta$ is the difference from the full system, as a multiple of each dataset's noise floor ($0.00065$ and $0.00070$; \S\ref{sec:noise}). Rows are independent replicate runs of the Table~\ref{tab:main} configurations (differences below the floor). The ML-1M arm starts from the geometry-enabled configuration; hard negatives include mixup.}
 \label{tab:ablation}
 \setlength{\tabcolsep}{2.5pt}
 \resizebox{\columnwidth}{!}{%

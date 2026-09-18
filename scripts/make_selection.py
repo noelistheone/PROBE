@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 r"""Every per-dataset choice, the validation score that decided it, and the test score that followed."""
 import json, os
+from decimal import Decimal, ROUND_HALF_UP
 R = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'results', 'wm')
 S = ['2024', '2025', '2026']
 
@@ -10,24 +11,25 @@ def vt(tag, ds):
         f = f'{R}/{tag}__{ds}__seed{s}.json'
         if os.path.exists(f):
             r = json.load(open(f)); vs.append(r['val_metrics']['NDCG']); ts.append(r['metrics']['NDCG@20'])
-    return (sum(vs) / len(vs), sum(ts) / len(ts)) if vs else (None, None)
+    # exact decimal means: float sum() differs across Python versions (3.12+ compensates), which flips
+    # half-way cases such as 0.15285 under '%.4f'; the paper rounds half-up on the exact mean
+    mean = lambda xs: sum(Decimal(repr(x)) for x in xs) / len(xs)
+    return (mean(vs), mean(ts)) if vs else (None, None)
 
-MODULE = [('Douban-Book', 'douban-book'), ('ML-1M', 'ml-1M')]
+MODULE = [('Yelp2018', 'yelp2018'), ('Douban-Book', 'douban-book'), ('ML-1M', 'ml-1M')]
+# no geometry-disabled pipeline run exists for Amazon-Kindle, so it appears only in the encoder grid
+ENCODER = [('Kindle', 'amazon-kindle')] + MODULE
 GRID = [(r'none', 'XSimGCLg_w00'), (r'$(0,1)$', 'XSimGCLg_w10'), (r'$(0,2)$', 'XSimGCLg_w20'),
         (r'$(0.5,1)$', 'AdaG_b05'), (r'$(1,1)$', 'AdaG_b10'), (r'$(0.5,2)$', 'AdaG_b05w2'),
         (r'$(1,2)$', 'AdaG_b10w2')]
 
 def bold(x, on):
-    return r'\textbf{%.4f}' % x if on else '%.4f' % x
+    q = x.quantize(Decimal('0.0001'), rounding=ROUND_HALF_UP)
+    return r'\textbf{%s}' % q if on else '%s' % q
 
 print(r"""\begin{table}[t]
 \centering
-\caption{Every per-dataset choice, the validation score that decided it and the test score that
-followed; the chosen option is in \textbf{bold}. Top: whether the geometric module is enabled. Bottom:
-the exponent $\beta$ and dose $\mu_g$ of the encoder-only regularizer, with every candidate listed --
-including \emph{none}, i.e.\ not regularizing at all ($\beta{=}0$ is uniform weighting). In all four
-decisions the validation ordering agrees with the test ordering, so none would have changed had we
-selected on test.}
+\caption{Validation-based model selection decisions alongside corresponding test scores (NDCG@20; selected configurations in \textbf{bold}). Top: enabling \textsc{DAGR} in the pipeline. Bottom: search over exponent $\beta$ and dose $\mu_g$ for encoder-only regularization ($\beta{=}0$ is uniform weighting). Validation picks the test-best option in every decision except on Yelp2018 (\S\ref{sec:selection}).}
 \label{tab:selection}
 \setlength{\tabcolsep}{3pt}
 \resizebox{\columnwidth}{!}{%
@@ -46,12 +48,12 @@ for name, ds in MODULE:
 print(r'\midrule')
 print(r'\emph{Encoder-only} $(\beta,\mu_g)$ & ' + ' & '.join(lab for lab, _ in GRID) + r' \\')
 print(r'\midrule')
-for name, ds in MODULE:
+for name, ds in ENCODER:
     vs = [vt(t, ds) for _, t in GRID]
     bi = max(range(len(vs)), key=lambda k: vs[k][0] if vs[k][0] is not None else -1)
-    print(f'{name}, validation & ' + ' & '.join(bold(v, k == bi) if v is not None else '--'
+    print(f'{name} valid. & ' + ' & '.join(bold(v, k == bi) if v is not None else '--'
                                                 for k, (v, _) in enumerate(vs)) + r' \\')
-    print(f'{name}, test & ' + ' & '.join(bold(t, k == bi) if t is not None else '--'
+    print(f'{name} test & ' + ' & '.join(bold(t, k == bi) if t is not None else '--'
                                           for k, (_, t) in enumerate(vs)) + r' \\')
 print(r"""\bottomrule
 \end{tabular}}

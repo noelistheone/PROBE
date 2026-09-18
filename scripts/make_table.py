@@ -31,14 +31,14 @@ spec='ll '+'c'*nb+'|c|'+'c'*len(OURS)
 print(r"""\begin{table*}[t]
 \centering
 \caption{Overall comparison under the leakage-controlled protocol of Section~\ref{sec:setup}
-(validation-only model selection, full ranking over the catalogue, mean over three seeds). Seed
-variation is small: over all released cells the seed standard deviation has median $0.0004$ and
-$90$th percentile $0.0026$ ($0.0019$ excluding the unstable LightGCL rows); across both of our columns
-the maximum is $0.0012$. Per-seed values are released. LightGCL is stable on Douban-Book and Yelp2018 but varies by a factor of two across seeds on ML-1M in our implementation ($0.095$, $0.188$, $0.205$); its ML-1M mean should be read with that in mind. Best per row in
-\textbf{bold}. $\dagger$~XSimGCL is the pre-trained backbone that PT4Rec and our model adapt, shown
-as the reference a prompt-tuning method must improve upon. Ours$_{-g}$ disables the degree-adaptive geometric
-module (retaining only the small fixed-weight anchoring and uniformity terms); its on/off state is
-selected per dataset on validation data.}
+(validation-only model selection, full ranking over the catalogue, mean of three seeds; N@$K$/R@$K$:
+NDCG/Recall@$K$; LGCN: LightGCN). Across all released cells (eight metrics), the seed standard deviation has
+median $0.0004$ and $90$th percentile $0.0026$ ($0.0019$ excluding LightGCL, which is unstable on ML-1M,
+\S\ref{sec:threats}); for our two columns it is at most $0.0014$. Best per row in \textbf{bold} (ties broken
+on unrounded means). $\dagger$~XSimGCL is the standalone backbone; PT4Rec and our variants adapt a separate
+XSimGCL pre-training and fine-tune it jointly (frozen results: Table~\ref{tab:protocol}). Ours$_{-g}$
+disables \textsc{DAGR} but keeps the fixed-weight terms (\S\ref{sec:method}); validation selects Ours on
+Douban-Book and Ours$_{-g}$ on ML-1M and Yelp2018.}
 \label{tab:main}
 \setlength{\tabcolsep}{3.2pt}
 \renewcommand{\arraystretch}{1.05}

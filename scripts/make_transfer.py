@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-r"""Transfer table: the geometric regularizer applied directly to the pre-trained encoder.
+r"""Transfer table: the geometric regularizer added to XSimGCL's own training objective, no prompt stage.
 
 All arms are dose-matched at mu_g=1 so the comparison isolates the exponent, and the last column
 reports what validation selects over the full six-candidate (beta, mu_g) grid.
@@ -23,23 +23,21 @@ def vt(tag, ds):
 def cell(t, base):
     return '--' if t is None else f'${t:.4f}$ \\,(${100*(t-base)/base:+.1f}\\%$)'
 
-print(r"""\begin{table}[t]
+print(r"""\begin{table*}[t]
 \centering
-\caption{The geometric regularizer applied \emph{directly to the pre-trained encoder}, with the
-prompt-tuning stage removed; $\Delta$ is against that encoder. The two adaptive columns are at
-$\mu_g{=}1$, dose-matched to the first uniform column, so that comparison isolates the exponent; the
-second uniform column gives the dose--response, which is monotonically beneficial on the sparse
-benchmark and monotonically destructive on the dense one, as Proposition~\ref{prop:degree} predicts.
-The last column is what validation selects over the full grid of Table~\ref{tab:selection}, including
-the option of not regularizing at all. Three seeds throughout.}
+\caption{NDCG@20 when the regularizer is added to XSimGCL's own training objective, with no prompt stage
+($\Delta$ vs.\ the unregularized encoder; three seeds). Adaptive columns are dose-matched to the uniform
+regularizer ($\mu_g{=}1$), isolating exponent $\beta$. Uniform weighting over-regularizes high-degree nodes
+(Proposition~\ref{prop:degree}); validation selection (Table~\ref{tab:selection}, \S\ref{sec:density})
+enables the regularizer only on Douban-Book.}
 \label{tab:transfer}
-\setlength{\tabcolsep}{2.5pt}
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{lrcccccl}
+\setlength{\tabcolsep}{3pt}
+\small
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrccccc@{}}
 \toprule
-Dataset & Density & Encoder & \multicolumn{2}{c}{+uniform} & \multicolumn{2}{c}{+degree-adaptive}
-& validation \\
- & & & $\mu_g{=}1$ & $\mu_g{=}2$ & $\beta{=}0.5$ & $\beta{=}1$ & selects \\
+Dataset & Density & Encoder & \multicolumn{2}{c}{+uniform} & \multicolumn{2}{c}{+degree-adaptive} \\
+\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+ & & & $\mu_g{=}1$ & $\mu_g{=}2$ & $\beta{=}0.5$ & $\beta{=}1$ \\
 \midrule""")
 for ds, name, dens in DS:
     ev, et = vt('XSimGCLg_w00', ds)
@@ -51,8 +49,7 @@ for ds, name, dens in DS:
     best = max(cands, key=lambda c: c[1])
     pick = best[0] if best[1] > ev else 'encoder (no reg.)'
     picked_test = best[2] if best[1] > ev else et
-    print(f'{name} & {dens} & ${et:.4f}$ & ' + ' & '.join(cells) +
-          f' & {pick}, ${picked_test:.4f}$ \\\\')
+    print(f'{name} & {dens} & ${et:.4f}$ & ' + ' & '.join(cells) + r' \\')
 print(r"""\bottomrule
-\end{tabular}}
-\end{table}""")
+\end{tabular*}
+\end{table*}""")

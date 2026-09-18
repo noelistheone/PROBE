@@ -162,15 +162,17 @@ for k, v in c.items():
 th = json.load(open(os.path.join(CUR, 'theory_prop2_verification.json')))
 print('  Proposition 2 grid search: ' + ', '.join(
     f'd={r["degree"]}: predicted {r["theory_mu_star"]:.2f} / measured {r["empirical_mu_star"]:.2f}' for r in th))
-print('  effective rank (one run per variant, Douban-Book):')
-for name, tag in [('XSimGCL', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSim_nofz'),
-                  ('Ours -g', OURS_NOGEOM), ('Ours', OURS_GEOM)]:
-    for f in sorted(glob.glob(os.path.join(CUR, f'{tag}__douban-book__seed*.json'))):
-        g = json.load(open(f)).get('geometry', {})
+print('  effective rank (Douban-Book, canonical seeds; CURVE_ runs share the config of their base tag):')
+for name, tag in [('XSimGCL', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSim_nofz'), ('Ours', OURS_GEOM)]:
+    us, its = [], []
+    for s in SEEDS:
+        f = os.path.join(CUR, f'CURVE_{tag}__douban-book__seed{s}.json')
+        g = json.load(open(f)).get('geometry', {}) if os.path.exists(f) else {}
         if 'user_eff_rank' in g:
-            print(f'    {name:10s} user={g["user_eff_rank"]:.2f} item={g["item_eff_rank"]:.2f} '
-                  f'[{os.path.basename(f)}]')
-            break
+            us.append(g['user_eff_rank']); its.append(g['item_eff_rank'])
+    if len(us) == len(SEEDS):
+        print(f'    {name:10s} user={st.mean(us):.2f} item={st.mean(its):.2f} '
+              f'(max sd {max(st.stdev(us), st.stdev(its)):.3f}, n={len(us)})')
 print('  ML-1M temporal split (per-user chronological 80/20, 3 seeds):')
 for name, tag in [('SGL', 'SGL'), ('NCL', 'NCL'), ('XSimGCL', 'XSimGCLg_w00'),
                   ('PT4Rec', 'PTbase_XSim_nofz'), ('Ours -g', OURS_NOGEOM), ('Ours', OURS_GEOM)]:
@@ -178,8 +180,11 @@ for name, tag in [('SGL', 'SGL'), ('NCL', 'NCL'), ('XSimGCL', 'XSimGCLg_w00'),
     if m: print(f'    {name:10s} {f4(m)}')
 print('  Yelp2018 configuration sweep (all variants tried):')
 lo, hi = 1, 0
-for f in sorted(glob.glob(os.path.join(CUR, 'OURS*__yelp2018__seed*.json'))):
-    v = json.load(open(f))['metrics']['NDCG@20']
+for f in sorted(glob.glob(os.path.join(CUR, f'{P}*__yelp2018__seed*.json'))):
+    r = json.load(open(f))
+    if '-freeze_encoder true' in json.dumps(r.get('config', {})):
+        continue                     # frozen-encoder arms are a different regime, not part of the sweep
+    v = r['metrics']['NDCG@20']
     lo, hi = min(lo, v), max(hi, v)
 print(f'    range {lo:.4f} - {hi:.4f}; DirectAU {f4(mean("DirectAU","yelp2018"))}, '
       f'backbone {f4(mean("XSimGCLg_w00","yelp2018"))}')

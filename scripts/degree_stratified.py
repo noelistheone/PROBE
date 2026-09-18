@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Is the geometric regularizer's effect explained by DENSITY or by degree HETEROGENEITY?
 
-If a graph were uniformly well observed, the unit-mean gate w_n = (1+d_n)^-beta / E[(1+d)^-beta]
+If a graph were uniformly well observed, the unit-mean weight w_n = (1+d_n)^-beta / E[(1+d)^-beta]
 would equal 1 everywhere and degree adaptation would be a no-op. So the mechanism must be
 heterogeneity. This script tests that directly: it splits users into degree quintiles and measures,
 per quintile, what a uniform dose costs and what adaptation gives back.
@@ -33,7 +33,7 @@ def quintile_report(ds, seed='2024'):
     if 'encoder' not in scores:
         print(f'{ds}: no verified dump for the encoder arm'); return
     deg = degrees(ds)
-    users = sorted(set.intersection(*[set(v) for v in scores.values()]), key=lambda u: deg.get(u, 0))
+    users = sorted(set.intersection(*[set(v) for v in scores.values()]), key=lambda u: (deg.get(u, 0), int(u)))
     q = len(users) // 5
     print(f'\n{ds} (seed {seed}, {len(users)} users, quintiles by training degree)')
     for k, v in used.items():
