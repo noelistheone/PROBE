@@ -1,0 +1,9 @@
+# Versions used for every result in the paper (Python 3.10; torch is the CUDA 12.1 build).
+torch==2.4.0
+numpy==1.26.4
+scipy==1.15.3
+numba==0.60.0
+PyYAML==6.0.3
+scikit-learn==1.7.2   # CPTPP baseline
+faiss-cpu==1.14.3     # NCL baseline
+matplotlib==3.10.9    # figures
