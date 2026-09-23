@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Generate the main IEEE results table straight from results/wm/*.json.
+"""Generate Table 1 (overall comparison) straight from results/wm/*.json.
 Columns with no data on any dataset are dropped automatically."""
 import glob, json, math, sys
 # SAC version: NDCG and Recall only. Hit Ratio and Precision are near-monotone transforms of these
@@ -10,7 +10,7 @@ METS=[('HitRatio@10','HR@10'),('HitRatio@20','HR@20'),('Precision@10','P@10'),('
       ('NDCG@10','N@10'),('NDCG@20','N@20'),('Recall@10','R@10'),('Recall@20','R@20')]
 if not FULL: METS=[m for m in METS if m[1].startswith(('N@','R@'))]
 BASE=[('MF','MF'),('LightGCN','LGCN'),('SGL','SGL'),('NCL','NCL'),('SSL4Rec','SSL4Rec'),
-      ('DirectAU','DirectAU'),('BUIR','BUIR'),('SelfCF','SelfCF'),('CPTPP','CPTPP'),('LightGCL','LightGCL'),
+      ('DirectAU','DirectAU'),('BUIR','BUIR'),('SelfCF','SelfCF'),('CPTPP_p10','CPTPP'),('LightGCL','LightGCL'),
       ('SimGCL','SimGCL')]
 BACK=[('XSimGCLg_w00','XSimGCL$^{\\dagger}$')]
 OURS=[('PTbase_XSim_nofz','PT4Rec'),('OURS_XSim_nofz','Ours$_{-g}$'),('OURSgeom_w2','\\textbf{Ours}')]
@@ -33,7 +33,7 @@ print(r"""\begin{table*}[t]
 \caption{Overall comparison under the leakage-controlled protocol of Section~\ref{sec:setup}
 (validation-only model selection, full ranking over the catalogue, mean of three seeds; N@$K$/R@$K$:
 NDCG/Recall@$K$; LGCN: LightGCN). Across all released cells (eight metrics), the seed standard deviation has
-median $0.0004$ and $90$th percentile $0.0026$ ($0.0019$ excluding LightGCL, which is unstable on ML-1M,
+median $0.0004$ and $90$th percentile $0.0033$ ($0.0027$ excluding LightGCL, which is unstable on ML-1M,
 \S\ref{sec:threats}); for our two columns it is at most $0.0014$. Best per row in \textbf{bold} (ties broken
 on unrounded means). $\dagger$~XSimGCL is the standalone backbone; PT4Rec and our variants adapt a separate
 XSimGCL pre-training and fine-tune it jointly (frozen results: Table~\ref{tab:protocol}). Ours$_{-g}$

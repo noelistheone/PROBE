@@ -5,7 +5,7 @@ import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
-REPO='.'; OUT=f'{REPO}/paper_ieee/fig'
+REPO='.'; OUT=f'{REPO}/figures'   # supplementary figures, not used by the paper
 os.makedirs(OUT, exist_ok=True)
 plt.rcParams.update({'font.size':8,'axes.labelsize':8,'axes.titlesize':8.5,'xtick.labelsize':7,
     'ytick.labelsize':7,'legend.fontsize':7,'figure.dpi':300,'savefig.dpi':300,
@@ -52,7 +52,7 @@ def fig_dose_density():
         ax.plot(x,[100*(v-y0)/y0 for v in y],marker='o',ms=3.5,lw=1.3,color=col,label=lab)
     ax.axhline(0,color='k',lw=.7)
     ax.set_xlabel(r'uniform geometric weight $\mu_g$')
-    ax.set_ylabel(r'$\Delta$NDCG@20 vs.\ encoder (%)')
+    ax.set_ylabel(r'$\Delta$NDCG@20 vs. encoder (%)')
     ax.legend(frameon=False,fontsize=6.5,loc='center left')
     fig.savefig(f'{OUT}/dose_density.pdf'); plt.close(fig); print('dose_density.pdf (single panel)')
 

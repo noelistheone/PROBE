@@ -27,8 +27,8 @@ print(r"""\begin{table*}[t]
 \centering
 \caption{NDCG@20 when the regularizer is added to XSimGCL's own training objective, with no prompt stage
 ($\Delta$ vs.\ the unregularized encoder; three seeds). Adaptive columns are dose-matched to the uniform
-regularizer ($\mu_g{=}1$), isolating exponent $\beta$. Uniform weighting over-regularizes high-degree nodes
-(Proposition~\ref{prop:degree}); validation selection (Table~\ref{tab:selection}, \S\ref{sec:density})
+regularizer ($\mu_g{=}1$), isolating exponent $\beta$. On ML-1M, uniform weighting over-regularizes high-degree nodes
+(Fig.~\ref{fig:mechanism}); validation selection (Table~\ref{tab:selection}, \S\ref{sec:density})
 enables the regularizer only on Douban-Book.}
 \label{tab:transfer}
 \setlength{\tabcolsep}{3pt}

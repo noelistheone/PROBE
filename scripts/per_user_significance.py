@@ -132,7 +132,7 @@ def user_scores(tag, ds, seed, model_hint):
 
 
 def wilcoxon(d):
-    """Two-sided Wilcoxon signed-rank with a normal approximation and tie correction."""
+    """Two-sided Wilcoxon signed-rank, normal approximation; tied |d| get mid-ranks (no tie variance term)."""
     d = [x for x in d if x != 0]
     n = len(d)
     if n < 10:

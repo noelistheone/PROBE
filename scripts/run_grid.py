@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Multi-seed experiment grid driver for the OURS resubmission.
+"""Multi-seed experiment grid driver.
 
 Generates a config per (model, dataset), then runs it under the fixed harness
 (train/val/test split, val-based selection, frozen encoder, real L2-SP, batched
@@ -50,6 +50,9 @@ MODELS = {
     'SelfCF':    ('SelfCF',   {'n_layer': 2, 'tau': 0.05}, 100, False, 0),
     'SSL4Rec':   ('SSL4Rec',  {'tau': 0.07, 'alpha': 0.1, 'drop': 0.1}, 100, False, 0),
     'CPTPP':     ('CPTPP',    '-n_layer 2 -lambda 0.1 -droprate 0.1 -augtype 1 -temp 0.2 -inputs_type 2 -prompt_size 256', 100, False, 0),
+    # CPTPP with the 10-epoch contrastive pre-training of its official config (conf/CPTPP.conf,
+    # num.max.preepoch=10); the 'CPTPP' tag above skipped it
+    'CPTPP_p10': ('CPTPP',    '-n_layer 2 -lambda 0.1 -droprate 0.1 -augtype 1 -temp 0.2 -inputs_type 2 -prompt_size 256', 100, False, 10),
     'MHCN':      ('MHCN',     {'n_layer': 2, 'ss_rate': 0.01}, 200, True, 0),
     'SEPT':      ('SEPT',     {'n_layer': 2, 'ss_rate': 0.005, 'drop_rate': 0.3, 'ins_cnt': 10}, 200, True, 0),
     'PTbase_Sim':  ('PT4Rec_Enhanced', _PTBASE.format(bk='SimGCL'),  100, False, 20),

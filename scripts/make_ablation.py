@@ -22,13 +22,13 @@ def cell(tag, ds, base):
 
 ROWS = [('Full system', 'AB_full'), (r'\;$-$ geometric module', 'AB_nogeom'),
         (r'\;$-$ signed router', 'AB_nodual'), (r'\;$-$ popularity residual', 'AB_nopop'),
-        (r'\;$-$ popularity, $\gamma{=}0$ control', 'AB_popg0'),
+        (r'\;$-$ popularity ($\gamma{=}0$, network kept)', 'AB_popg0'),
         (r'\;$-$ hard negatives', 'AB_nohn'), ('Geometric module only', 'AB_geomonly')]
 base = {ds: sum(series('AB_full', ds)) / len(series('AB_full', ds)) for ds in FLOOR}
 
 print(r"""\begin{table}[t]
 \centering
-\caption{Leave-one-out ablation (three seeds, NDCG@20). $\Delta$ is the difference from the full system, as a multiple of each dataset's noise floor ($0.00065$ and $0.00070$; \S\ref{sec:noise}). Rows are independent replicate runs of the Table~\ref{tab:main} configurations (differences below the floor). The ML-1M arm starts from the geometry-enabled configuration; hard negatives include mixup.}
+\caption{Leave-one-out ablation (three seeds, NDCG@20). $\Delta$ is the difference from the full system, as a multiple of each dataset's noise floor ($0.00065$ and $0.00070$; \S\ref{sec:noise}). Rows are independent replicate runs of the Table~\ref{tab:main} configurations (differences below the floor). The ML-1M arm starts from the geometry-enabled configuration; hard negatives include mixup. $\pm$: seed SD; every $\Delta\ge14\times$ has paired-$t$ $p{<}0.01$ over seeds.}
 \label{tab:ablation}
 \setlength{\tabcolsep}{2.5pt}
 \resizebox{\columnwidth}{!}{%

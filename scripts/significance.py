@@ -5,7 +5,7 @@ import glob, json, math, os, statistics as st
 
 R = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'results', 'wm')
 SEEDS = ['2024', '2025', '2026']
-BASELINES = ['MF', 'LightGCN', 'SGL', 'NCL', 'SSL4Rec', 'DirectAU', 'BUIR', 'SelfCF', 'CPTPP', 'LightGCL']
+BASELINES = ['MF', 'LightGCN', 'SGL', 'NCL', 'SSL4Rec', 'DirectAU', 'BUIR', 'SelfCF', 'CPTPP_p10', 'LightGCL']
 BACKBONE = 'XSimGCLg_w00'
 OURS = {'douban-book': 'OURSgeom_w2', 'ml-1M': 'OURS_XSim_nofz', 'yelp2018': 'OURSgeom_w2'}
 # measured per dataset -- applying one dataset's floor to another is exactly the error this paper is about

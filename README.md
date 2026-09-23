@@ -1,7 +1,6 @@
-# Degree-Adaptive Regularization for Graph Contrastive Recommenders
+# Anonymous code release
 
-Code and per-seed result records for the paper *"Geometry Is What Survives: Degree-Adaptive
-Regularization for Graph Contrastive Recommenders under a Leakage-Controlled Protocol"*.
+Code and per-seed result records accompanying an anonymous conference submission.
 
 The repository contains everything needed to re-run the experiments and to regenerate every
 table and figure in the paper directly from the released records. It is anonymous: no author,
@@ -16,7 +15,8 @@ model/graph/               the models compared in the paper
 scripts/                   experiment driver and the table / figure generators
 conf/grid/                 one config per (tag, dataset) actually run
 results/wm/                per-seed JSON records from the current harness
-results/wm_noisefloor/     18 repeats of one configuration (the Douban-Book noise floor)
+results/wm_noisefloor/     18 repeats of one configuration (the Douban-Book noise floor); the files
+                           keep legacy sweep names, but all 18 share one configuration
 results/per_user/          per-user NDCG@20 behind the per-user tests, quintiles and Figure 2
 results/prev_sampler/      records from an earlier, slower negative sampler; superseded, and
                            read by no script
@@ -112,6 +112,7 @@ mean must reproduce the record's NDCG@20 to five decimals, or the script stops.
 |---|---|
 | XSimGCL (backbone) | `XSimGCLg_w00` |
 | PT4Rec | `PTbase_XSim_nofz` |
+| CPTPP (official code, with its 10-epoch pre-training) | `CPTPP_p10` |
 | Ours (geometric module off) | `OURS_XSim_nofz` |
 | Ours | `OURSgeom_w2` |
 | leave-one-out ablation | `AB_full`, `AB_nogeom`, `AB_nodual`, `AB_nopop`, `AB_nohn`, `AB_geomonly` |
@@ -122,7 +123,7 @@ mean must reproduce the record's NDCG@20 to five decimals, or the script stops.
 | within-run checkpoint tracking | tags prefixed `CURVE_` (same config as the base tag, with the validation and test curves logged) |
 | noise floor | Douban-Book: `results/wm_noisefloor/` (18 repeats at one seed); ML-1M: `NFml1m_r*` (10 repeats at one seed) |
 | sensitivity of the fixed-weight terms | `SW_*` (Douban-Book, seed 2024) |
-| capacity-matched popularity control | `AB_popg0` |
+| popularity residual with gamma = 0, network kept (functionally the same as removing it) | `AB_popg0` |
 | chronological split | any tag on dataset `ml-1M-temporal` |
 
 The PT4Rec baseline is run through the same code path with every added module disabled

@@ -13,8 +13,8 @@ NF = os.path.join(ROOT, 'results', 'wm_noisefloor')
 SEEDS = ['2024', '2025', '2026']          # the canonical seed set used by every table
 
 def _prefix():
-    """Records ship with an anonymized tag prefix; accept either naming."""
-    return 'OURS' if glob.glob(os.path.join(CUR, 'OURSgeom_w2__*.json')) else 'OURS'
+    """Tag prefix of our model's records."""
+    return 'OURS'
 
 P = _prefix()
 OURS_GEOM, OURS_NOGEOM, OURS_FROZEN = f'{P}geom_w2', f'{P}_XSim_nofz', f'{P}geom_w2_fz'
@@ -54,7 +54,7 @@ def head(t):
 head('Table I  Overall comparison (3 seeds, NDCG@20 only; run make_table.py for all metrics)')
 TAGS = [('MF', 'MF'), ('LightGCN', 'LightGCN'), ('SGL', 'SGL'), ('NCL', 'NCL'),
         ('SSL4Rec', 'SSL4Rec'), ('DirectAU', 'DirectAU'), ('BUIR', 'BUIR'),
-        ('SelfCF', 'SelfCF'), ('CPTPP', 'CPTPP'), ('LightGCL', 'LightGCL'),
+        ('SelfCF', 'SelfCF'), ('CPTPP', 'CPTPP_p10'), ('LightGCL', 'LightGCL'),
         ('XSimGCL (backbone)', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSim_nofz'),
         ('Ours -g', OURS_NOGEOM), ('Ours', OURS_GEOM)]
 for ds in ['douban-book', 'ml-1M', 'yelp2018']:

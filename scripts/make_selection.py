@@ -29,7 +29,7 @@ def bold(x, on):
 
 print(r"""\begin{table}[t]
 \centering
-\caption{Validation-based model selection decisions alongside corresponding test scores (NDCG@20; selected configurations in \textbf{bold}). Top: enabling \textsc{DAGR} in the pipeline. Bottom: search over exponent $\beta$ and dose $\mu_g$ for encoder-only regularization ($\beta{=}0$ is uniform weighting). Validation picks the test-best option in every decision except on Yelp2018 (\S\ref{sec:selection}).}
+\caption{Validation and test NDCG@20 behind each selection decision (selected in \textbf{bold}). Top: enabling \textsc{DAGR} in the pipeline. Bottom: encoder-only grid over exponent $\beta$ and dose $\mu_g$ ($\beta{=}0$ is uniform). Validation picks the test-best option except on Yelp2018 (\S\ref{sec:selection}).}
 \label{tab:selection}
 \setlength{\tabcolsep}{3pt}
 \resizebox{\columnwidth}{!}{%
