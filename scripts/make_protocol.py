@@ -27,7 +27,7 @@ def block(ds):
             cells.append(f'${sum(v)/len(v):.4f}$ \\,(${pct}\\%$)' if v else '--')
         fz = FROZEN.get(tag)
         v = ser(fz, ds) if fz else []
-        cells.append(f'${sum(v)/len(v):.4f}$ \\,($\\times{sum(v)/len(v)/b:.2f}$)' if v else '---')
+        cells.append(f'${sum(v)/len(v):.4f}$ \\,($\\times{sum(v)/len(v)/b:.2f}$)' if v else '--')
         out.append(f'{name} & ' + ' & '.join(cells) + r' \\')
     return out
 
@@ -35,7 +35,7 @@ print(r"""\begin{table}[t]
 \centering
 \caption{Protocol discrepancies isolated as controlled conditions (three seeds, NDCG@20). \emph{Selection on
 test} keeps the validation split but selects checkpoints on the test set; \emph{no val.\ split} also
-returns the validation interactions to training. Both are separate runs and so include run-to-run noise
+returns the validation interactions to training. Both are separate runs and so include GPU noise
 (within-run selection shifts: \S\ref{sec:protocol}). \emph{Encoder frozen} differs from \emph{controlled}
 only in freezing the encoder. Ours has \textsc{DAGR} enabled on both datasets.}
 \label{tab:protocol}

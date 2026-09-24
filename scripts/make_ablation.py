@@ -15,7 +15,7 @@ def cell(tag, ds, base):
         return '--', '--'
     m, sd = sum(v) / len(v), (st.stdev(v) if len(v) > 1 else 0.0)
     if tag == 'AB_full':
-        return '$%.5f$ {\\scriptsize$\\pm$%.5f}' % (m, sd), '---'
+        return '$%.5f$ {\\scriptsize$\\pm$%.5f}' % (m, sd), '--'
     d = m - base
     return ('$%.5f$ {\\scriptsize$\\pm$%.5f}' % (m, sd),
             '$%+.5f$ (%s)' % (d, ('%.0f$\\times$' % (abs(d)/FLOOR[ds])) if abs(d) >= FLOOR[ds] else 'below'))
@@ -28,7 +28,7 @@ base = {ds: sum(series('AB_full', ds)) / len(series('AB_full', ds)) for ds in FL
 
 print(r"""\begin{table}[t]
 \centering
-\caption{Leave-one-out ablation (three seeds, NDCG@20). $\Delta$ is the difference from the full system, as a multiple of each dataset's noise floor ($0.00065$ and $0.00070$; \S\ref{sec:noise}). Rows are independent replicate runs of the Table~\ref{tab:main} configurations (differences below the floor). The ML-1M arm starts from the \textsc{DAGR}-enabled configuration; hard negatives include mixup. $\pm$: seed SD; every $\Delta\ge14\times$ has paired-$t$ $p{<}0.01$ over seeds.}
+\caption{Leave-one-out ablation (three seeds, NDCG@20). $\Delta$ is the difference from the full system, as a multiple of each dataset's GPU noise floor ($0.00065$ and $0.00070$; \S\ref{sec:noise}). Rows are independent replicate runs of the Table~\ref{tab:main} configurations (differences below the floor). The ML-1M arm starts from the \textsc{DAGR}-enabled configuration; hard negatives include mixup. $\pm$: seed SD; every $\Delta\ge14\times$ has paired-$t$ $p{<}0.01$ over seeds.}
 \label{tab:ablation}
 \setlength{\tabcolsep}{2.5pt}
 \resizebox{\columnwidth}{!}{%
