@@ -34,7 +34,7 @@ def block(ds):
 print(r"""\begin{table}[t]
 \centering
 \caption{Protocol discrepancies isolated as controlled conditions (three seeds, NDCG@20). \emph{Selection on
-test} keeps the validation split but selects checkpoints on the test set; \emph{no val.\ split} additionally
+test} keeps the validation split but selects checkpoints on the test set; \emph{no val.\ split} also
 returns the validation interactions to training. Both are separate runs and so include run-to-run noise
 (within-run selection shifts: \S\ref{sec:protocol}). \emph{Encoder frozen} differs from \emph{controlled}
 only in freezing the encoder. Ours has \textsc{DAGR} enabled on both datasets.}

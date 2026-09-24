@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Generate Table 1 (overall comparison) straight from results/wm/*.json.
+"""Generate Table 2 (overall comparison) straight from results/wm/*.json.
 Columns with no data on any dataset are dropped automatically."""
 import glob, json, sys
 from decimal import Decimal, ROUND_HALF_UP
@@ -31,9 +31,8 @@ nb=len(base)
 spec='ll '+'c'*nb+'|c|'+'c'*len(OURS)
 print(r"""\begin{table*}[t]
 \centering
-\caption{Overall comparison under the leakage-controlled protocol of Section~\ref{sec:setup}
-(validation-only model selection, full ranking over the catalogue, mean of three seeds; N@$K$/R@$K$:
-NDCG/Recall@$K$; LGCN: LightGCN). Across all released cells (eight metrics), the seed standard deviation has
+\caption{Overall comparison under the leakage-controlled protocol (\S\ref{sec:setup}; mean of three seeds;
+N@$K$/R@$K$: NDCG/Recall@$K$; LGCN: LightGCN). Across all released cells (eight metrics), the seed standard deviation has
 median $0.0004$ and $90$th percentile $0.0033$ ($0.0027$ excluding LightGCL, which is unstable on ML-1M,
 \S\ref{sec:threats}); for our two columns it is at most $0.0014$. Best per row in \textbf{bold} (ties broken
 on unrounded means). $\dagger$~XSimGCL is the standalone backbone; PT4Rec and our variants adapt a separate

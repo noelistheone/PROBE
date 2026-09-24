@@ -29,13 +29,13 @@ def bold(x, on):
 
 print(r"""\begin{table}[t]
 \centering
-\caption{Validation and test NDCG@20 behind each selection decision (selected in \textbf{bold}). Top: enabling \textsc{DAGR} in the pipeline. Bottom: encoder-only grid over exponent $\beta$ and dose $\mu_g$ ($\beta{=}0$ is uniform). Validation picks the test-best option except on Yelp2018 (\S\ref{sec:selection}).}
+\caption{Validation and test NDCG@20 behind each selection decision (selected in \textbf{bold}). Top: enabling \textsc{DAGR} in the pipeline. Bottom: encoder-only grid over exponent $\beta$ and strength $\mu_g$ ($\beta{=}0$ is uniform). Validation picks the test-best option except on Yelp2018 (\S\ref{sec:selection}).}
 \label{tab:selection}
 \setlength{\tabcolsep}{3pt}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{lccccccc}
 \toprule
-\multicolumn{3}{l}{\emph{Geometric module}} & \multicolumn{2}{c}{enabled} & \multicolumn{2}{c}{disabled} \\
+\multicolumn{3}{l}{\emph{\textsc{DAGR} in the pipeline}} & \multicolumn{2}{c}{enabled} & \multicolumn{2}{c}{disabled} \\
 \cmidrule(lr){4-5}\cmidrule(lr){6-7}
 \multicolumn{3}{l}{} & valid. & test & valid. & test \\
 \midrule""")

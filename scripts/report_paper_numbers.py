@@ -51,7 +51,7 @@ def head(t):
     print('\n' + '=' * 78 + f'\n{t}\n' + '=' * 78)
 
 
-head('Table I  Overall comparison (3 seeds, NDCG@20 only; run make_table.py for all metrics)')
+head('Table 2  Overall comparison (3 seeds, NDCG@20 only; run make_table.py for all metrics)')
 TAGS = [('MF', 'MF'), ('LightGCN', 'LightGCN'), ('SGL', 'SGL'), ('NCL', 'NCL'),
         ('SSL4Rec', 'SSL4Rec'), ('DirectAU', 'DirectAU'), ('BUIR', 'BUIR'),
         ('SelfCF', 'SelfCF'), ('CPTPP', 'CPTPP_p10'), ('LightGCL', 'LightGCL'),
@@ -65,7 +65,7 @@ for ds in ['douban-book', 'ml-1M', 'yelp2018']:
             sd = st.stdev(v) if len(v) > 1 else 0.0
             print(f'  {name:20s} {f4(sum(v)/len(v))}  sd={sd:.5f}  n={len(v)}  [{tag}]')
 
-head('Table II  Protocol decomposition on Douban-Book (paired, 3 seeds)')
+head('Table 1  Protocol decomposition on Douban-Book (paired, 3 seeds)')
 FROZEN = {'PTbase_XSim_nofz': 'PTbase_XSim', OURS_GEOM: OURS_FROZEN}
 for name, tag in [('XSimGCL (backbone)', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSim_nofz'),
                   ('Ours', OURS_GEOM)]:
@@ -89,7 +89,7 @@ for name, tag in [('XSimGCL (backbone)', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSi
     print(f'      selected epochs: controlled={[rec(tag, "douban-book", s)["best_val_epoch"] for s in SEEDS]}'
           f' selection-on-test={[rec(tag+"_SELTEST", "douban-book", s)["best_val_epoch"] for s in SEEDS]}')
 
-head('Table III  Leave-one-out ablation on Douban-Book (3 seeds)')
+head('Table 3  Leave-one-out ablation on Douban-Book (3 seeds)')
 full = series('AB_full', 'douban-book')
 mf = sum(full) / len(full)
 for name, tag in [('full system', 'AB_full'), ('- geometric module', 'AB_nogeom'),
@@ -101,7 +101,7 @@ for name, tag in [('full system', 'AB_full'), ('- geometric module', 'AB_nogeom'
         sd = st.stdev(v) if len(v) > 1 else 0.0
         print(f'  {name:22s} {m:.5f} +- {sd:.5f}   delta={m-mf:+.5f}  ({abs(m-mf)/0.00065:.1f}x noise floor)')
 
-head('Table IV  Beyond-accuracy on Douban-Book (3 seeds)')
+head('Table 4  Beyond-accuracy on Douban-Book (3 seeds)')
 METS = ['NDCG@20', 'TailRecall@20', 'ItemCoverage@20', 'ARP@20', 'Novelty@20', 'Gini@20']
 for name, tag in [('XSimGCL (backbone)', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSim_nofz'),
                   ('+ routing, popularity', OURS_NOGEOM), ('+ geometric (ours)', OURS_GEOM),
@@ -112,7 +112,7 @@ for name, tag in [('XSimGCL (backbone)', 'XSimGCLg_w00'), ('PT4Rec', 'PTbase_XSi
         cells.append(f'{sum(v)/len(v):.4f}' if v else '--')
     print(f'  {name:22s} ' + '  '.join(f'{m.split("@")[0]}={c}' for m, c in zip(METS, cells)))
 
-head('Table V  Per-dataset selection decisions (validation vs test, 3 seeds)')
+head('Table 6  Per-dataset selection decisions (validation vs test, 3 seeds)')
 def val(tag, ds):
     v = [rec(tag, ds, s)['val_metrics']['NDCG'] for s in SEEDS if rec(tag, ds, s)]
     return sum(v) / len(v) if v else None
@@ -124,7 +124,7 @@ for label, ds, opts in [
     for o, tag in opts:
         print(f'  {label:24s} {o:9s} val={f4(val(tag, ds))}  test={f4(mean(tag, ds))}  [{tag}]')
 
-head('Table V  Regularizer applied to the encoder alone (full (beta, mu_g) grid)')
+head('Tables 5-6  Regularizer applied to the encoder alone (full (beta, mu_g) grid)')
 for ds in ['amazon-kindle', 'yelp2018', 'douban-book', 'ml-1M']:
     b = mean('XSimGCLg_w00', ds)
     row = f'  {ds:14s} encoder {f4(b)}'

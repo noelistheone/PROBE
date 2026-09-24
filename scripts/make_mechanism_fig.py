@@ -9,7 +9,7 @@ from per_user_significance import user_scores
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'SAC2027', 'fig')
 os.makedirs(OUT, exist_ok=True)
-plt.rcParams.update({'font.size': 6.5, 'axes.labelsize': 7, 'xtick.labelsize': 7,
+plt.rcParams.update({'pdf.fonttype': 42, 'font.size': 6.5, 'axes.labelsize': 7, 'xtick.labelsize': 7,
                      'ytick.labelsize': 7, 'legend.fontsize': 6.5, 'figure.dpi': 300,
                      'savefig.dpi': 300, 'axes.spines.top': False, 'axes.spines.right': False,
                      'font.family': 'serif', 'axes.grid': True, 'grid.alpha': .25,

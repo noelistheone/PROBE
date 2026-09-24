@@ -85,8 +85,8 @@ decomposition in the paper measurable:
 ```bash
 python scripts/report_paper_numbers.py     # every number in the paper, with its source tag
 python scripts/significance.py             # paired tests over seeds, ours vs the best baseline
-python scripts/make_table.py     > tab_main.tex        # Table 1
-python scripts/make_protocol.py  > tab_protocol.tex    # Table 2
+python scripts/make_protocol.py  > tab_protocol.tex    # Table 1
+python scripts/make_table.py     > tab_main.tex        # Table 2
 python scripts/make_ablation.py  > tab_ablation.tex    # Table 3
 python scripts/make_exposure.py  > tab_exposure.tex    # Table 4
 python scripts/make_transfer.py  > tab_transfer.tex    # Table 5

@@ -22,8 +22,9 @@ def cell(tag, ds, key, nd):
 print(r"""\begin{table}[t]
 \centering
 \caption{Exposure of top-20 lists (three seeds). Tail: recall on the $80\%$ least popular items (by
-training degree); Cov.: item coverage; ARP: mean item degree over the maximum degree; Nov.: mean
-self-information ($-\log_2$ popularity share). Lower ARP and Gini mean less concentrated exposure.}
+training degree); Cov.: share of items in at least one list; ARP: mean item degree over the maximum degree; Nov.:
+mean self-information ($-\log_2$ popularity share); Gini: inequality of per-item recommendation counts. Lower ARP
+and Gini mean less concentrated exposure.}
 \label{tab:exposure}
 \setlength{\tabcolsep}{3pt}
 \resizebox{\columnwidth}{!}{%
